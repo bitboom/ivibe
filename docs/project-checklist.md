@@ -13,7 +13,7 @@
 - [x] Home
 - [x] Start: iOS 앱은 웹사이트가 아니다
 - [x] NavigationStack / Tab Bar / Sheet
-- [ ] Forms / Keyboard / Validation
+- [x] Forms / Keyboard / Validation
 - [ ] Permissions / Privacy
 - [ ] Loading / Empty / Error State
 - [ ] Accessibility 기본
@@ -28,7 +28,7 @@
 - [x] 좋은 예
 - [x] SwiftUI 구현 힌트
 - [x] 체크리스트
-- [ ] 다음 글 연결
+- [x] 다음 글 연결
 
 ## 디자인
 
@@ -47,4 +47,4 @@
 - [x] Lab 탭
 - [x] Checklist 탭
 - [x] iOS 26 Simulator 스크린샷 캡처 파이프라인
-- [ ] GitHub Pages 문서와 챕터 ID 매칭
+- [x] GitHub Pages 문서와 챕터 ID 매칭

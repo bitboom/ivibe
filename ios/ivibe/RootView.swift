@@ -11,11 +11,16 @@ struct RootView: View {
 
     var body: some View {
         Group {
-            if screenshotMode == .structureDetail {
-                NavigationStack {
-                    LessonDetailScreen()
-                }
-            } else {
+            switch screenshotMode {
+            case .structureDetail:
+                NavigationStack { LessonDetailScreen() }
+            case .formOverview:
+                NavigationStack { FormLessonScreen(mode: .overview) }
+            case .formKeyboard:
+                NavigationStack { FormLessonScreen(mode: .keyboard) }
+            case .formValidation:
+                NavigationStack { FormLessonScreen(mode: .validation) }
+            case .normal, .compare, .checklist, .filterSheet:
                 tabContent
             }
         }
@@ -69,6 +74,9 @@ enum ScreenshotMode: String {
     case checklist
     case structureDetail
     case filterSheet
+    case formOverview
+    case formKeyboard
+    case formValidation
 
     static var current: ScreenshotMode {
         guard let index = CommandLine.arguments.firstIndex(of: "--ivibe-screenshot"),
@@ -84,7 +92,7 @@ enum ScreenshotMode: String {
             return .compare
         case .checklist:
             return .checklist
-        case .normal, .structureDetail, .filterSheet:
+        case .normal, .structureDetail, .filterSheet, .formOverview, .formKeyboard, .formValidation:
             return .learn
         }
     }
@@ -113,11 +121,15 @@ struct LearnScreen: View {
                     )
                 }
 
-                LessonRow(
-                    title: "Form / Keyboard / Validation",
-                    subtitle: "입력, 키보드, 오류 회복을 iOS답게 만듭니다.",
-                    symbol: "keyboard"
-                )
+                NavigationLink {
+                    FormLessonScreen(mode: .overview)
+                } label: {
+                    LessonRow(
+                        title: "Form / Keyboard / Validation",
+                        subtitle: "입력, 키보드, 오류 회복을 iOS답게 만듭니다.",
+                        symbol: "keyboard"
+                    )
+                }
 
                 LessonRow(
                     title: "Permission / Privacy",
@@ -236,17 +248,114 @@ struct ComponentExplanationCard: View {
     }
 }
 
+enum FormLessonMode {
+    case overview
+    case keyboard
+    case validation
+}
+
+struct FormLessonScreen: View {
+    let mode: FormLessonMode
+    @State private var appName = "ivibe"
+    @State private var email = "sangwan@example.com"
+    @State private var message = ""
+    @State private var agreeToUpdates = true
+    @FocusState private var focusedField: Field?
+
+    enum Field: Hashable {
+        case message
+    }
+
+    var body: some View {
+        Form {
+            Section {
+                LabeledContent("목적", value: "iOS UX 점검")
+                TextField("앱 이름", text: $appName)
+                    .textInputAutocapitalization(.words)
+                TextField("이메일", text: $email)
+                    .textInputAutocapitalization(.never)
+                    .keyboardType(.emailAddress)
+                    .textContentType(.emailAddress)
+
+                if mode == .validation {
+                    Label("올바른 이메일 주소를 입력해 주세요.", systemImage: "exclamationmark.circle.fill")
+                        .font(.footnote)
+                        .foregroundStyle(.red)
+                }
+            } header: {
+                Text("기본 정보")
+            } footer: {
+                Text("입력 화면은 사용자가 무엇을 넣어야 하는지 바로 이해할 수 있게 라벨, 키보드 타입, 도움말을 같이 설계합니다.")
+            }
+
+            Section {
+                TextField("개선하고 싶은 점", text: $message, axis: .vertical)
+                    .lineLimit(3...5)
+                    .focused($focusedField, equals: .message)
+                    .submitLabel(.done)
+
+                if mode == .validation {
+                    Label("최소 10자 이상 입력해 주세요.", systemImage: "exclamationmark.circle.fill")
+                        .font(.footnote)
+                        .foregroundStyle(.red)
+                } else {
+                    Text("예: 권한 요청 타이밍, 키보드가 버튼을 가리는 문제")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                }
+            } header: {
+                Text("상세 설명")
+            }
+
+            Section {
+                Toggle("업데이트 소식 받기", isOn: $agreeToUpdates)
+            }
+
+            Section {
+                Button("검토 요청") {}
+                    .disabled(mode == .validation)
+            } footer: {
+                if mode == .validation {
+                    Text("오류는 제출 후 한꺼번에 숨기기보다, 사용자가 바로 고칠 수 있는 위치에 표시합니다.")
+                        .foregroundStyle(.red)
+                }
+            }
+        }
+        .navigationTitle("Form")
+        .navigationBarTitleDisplayMode(mode == .overview ? .large : .inline)
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button("완료") { focusedField = nil }
+            }
+        }
+        .onAppear {
+            if mode == .keyboard {
+                message = "키보드가 입력 중인 필드와 완료 버튼을 가리지 않게 확인합니다."
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.65) {
+                    focusedField = .message
+                }
+            } else if mode == .validation {
+                appName = ""
+                email = "wrong-email"
+                message = "짧음"
+            }
+        }
+    }
+}
+
 struct CompareScreen: View {
     var body: some View {
         List {
             Section("Bad") {
                 Text("탭을 기능 버튼처럼 늘어놓기")
                 Text("상세 화면을 계속 Sheet로 띄우기")
+                Text("키보드가 CTA를 가리는데 그대로 두기")
             }
             Section("Good") {
                 Text("큰 영역은 Tab Bar")
                 Text("목록 → 상세는 NavigationStack")
-                Text("짧은 작업만 Sheet")
+                Text("입력 오류는 필드 가까이에 표시")
             }
         }
         .navigationTitle("Compare")
@@ -271,6 +380,12 @@ struct ChecklistScreen: View {
                 Label("최상위 목적지만 Tab Bar에 넣었는가", systemImage: "checkmark.circle")
                 Label("목록 → 상세는 NavigationStack인가", systemImage: "checkmark.circle")
                 Label("짧은 작업만 Sheet로 띄우는가", systemImage: "checkmark.circle")
+            }
+
+            Section("Input") {
+                Label("필드 라벨이 명확한가", systemImage: "checkmark.circle")
+                Label("키보드 타입이 입력 목적과 맞는가", systemImage: "checkmark.circle")
+                Label("오류를 고칠 위치 가까이에 보여주는가", systemImage: "checkmark.circle")
             }
         }
         .navigationTitle("Checklist")
