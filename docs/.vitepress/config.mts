@@ -10,16 +10,22 @@ export default defineConfig({
     logo: { text: 'ivibe' },
     nav: [
       { text: 'Start', link: '/guide/start' },
+      { text: 'Structure', link: '/guide/navigation-structure' },
       { text: 'Checklist', link: '/checklists/ios-native' }
     ],
     sidebar: [
       {
-        text: 'Start',
+        text: 'Foundations',
         items: [
           { text: 'iOS 앱은 웹사이트가 아니다', link: '/guide/start' },
-          { text: 'iOS-native 체크리스트', link: '/checklists/ios-native' }
+          { text: 'NavigationStack / Tab Bar / Sheet', link: '/guide/navigation-structure' },
+          { text: 'iOS-native 체크리스트', link: '/checklists/ios-native' },
+          { text: '프로젝트 체크리스트', link: '/project-checklist' }
         ]
       }
+    ],
+    socialLinks: [
+      { icon: 'github', link: 'https://github.com/bitboom/ivibe' }
     ],
     search: { provider: 'local' }
   },

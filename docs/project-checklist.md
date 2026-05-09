@@ -12,7 +12,7 @@
 
 - [x] Home
 - [x] Start: iOS 앱은 웹사이트가 아니다
-- [ ] NavigationStack / Tab Bar / Sheet
+- [x] NavigationStack / Tab Bar / Sheet
 - [ ] Forms / Keyboard / Validation
 - [ ] Permissions / Privacy
 - [ ] Loading / Empty / Error State
