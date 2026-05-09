@@ -46,7 +46,7 @@ struct RootView: View {
                 NavigationStack { AccessibilityLessonScreen(mode: .voiceOver) }
             case .accessibilityTouchTarget:
                 NavigationStack { AccessibilityLessonScreen(mode: .touchTarget) }
-            case .normal, .compare, .checklist, .lab, .filterSheet:
+            case .normal, .compare, .checklist, .lab, .labPermission, .filterSheet:
                 tabContent
             }
         }
@@ -99,6 +99,7 @@ enum ScreenshotMode: String {
     case compare
     case checklist
     case lab
+    case labPermission
     case structureDetail
     case filterSheet
     case navigationTitleLarge
@@ -131,7 +132,7 @@ enum ScreenshotMode: String {
             return .compare
         case .checklist:
             return .checklist
-        case .lab:
+        case .lab, .labPermission:
             return .lab
         case .normal, .structureDetail, .filterSheet, .navigationTitleLarge, .navigationInlineBack, .navigationToolbar, .formOverview, .formKeyboard, .formValidation, .privacyPrePrompt, .privacySystemPrompt, .privacyRecovery, .feedbackLoading, .feedbackEmpty, .feedbackError, .accessibilityDynamicType, .accessibilityVoiceOver, .accessibilityTouchTarget:
             return .learn
@@ -546,7 +547,7 @@ struct FormLessonScreen: View {
                         .font(.footnote)
                         .foregroundStyle(.red)
                 } else {
-                    Text("예: 권한 요청 타이밍, 키보드가 버튼을 가리는 문제")
+                    Text("예: 시스템 요청 타이밍, 키보드가 버튼을 가리는 문제")
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 }
@@ -637,7 +638,7 @@ struct PrivacyLessonScreen: View {
 
                 if mode == .recovery {
                     Button("설정에서 카메라 접근 켜기") {}
-                    Text("권한이 거절된 뒤에는 같은 시스템 요청을 반복할 수 없습니다. 사용자가 설정에서 직접 바꿀 수 있게 안내해야 합니다.")
+                    Text("권한이 거절된 뒤에는 같은 권한 요청을 반복할 수 없습니다. 사용자가 설정에서 직접 바꿀 수 있게 안내해야 합니다.")
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 } else {
@@ -696,7 +697,7 @@ private extension PrivacyLessonMode {
     var explanation: String {
         switch self {
         case .prePrompt:
-            return "먼저 왜 필요한지 설명하고, 사용자가 기능을 시작할 준비가 되었을 때 iOS 권한 요청을 띄웁니다."
+            return "먼저 왜 필요한지 설명하고, 사용자가 기능을 시작할 준비가 되었을 때 iOS 시스템 권한 요청을 띄웁니다."
         case .systemPrompt:
             return "iOS 시스템 alert는 앱이 마음대로 꾸미는 화면이 아닙니다. 그래서 띄우기 전 맥락을 충분히 만들어야 합니다."
         case .recovery:
@@ -935,7 +936,7 @@ struct AccessibilityLessonScreen: View {
                             .accessibilityHidden(true)
 
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("권한 요청 전에 알림")
+                            Text("시스템 요청 전에 알림")
                                 .font(.headline)
                             Text("VoiceOver는 아이콘이 아니라 의미를 읽어야 합니다.")
                                 .font(.footnote)
@@ -943,7 +944,7 @@ struct AccessibilityLessonScreen: View {
                         }
                     }
                     .accessibilityElement(children: .combine)
-                    .accessibilityLabel("권한 요청 전에 알림")
+                    .accessibilityLabel("시스템 요청 전에 알림")
                     .accessibilityHint("아이콘만 보이는 버튼에도 읽을 수 있는 이름이 필요합니다.")
                 } else {
                     VStack(alignment: .leading, spacing: 10) {
@@ -1178,11 +1179,28 @@ enum LabMode: String, CaseIterable, Identifiable {
     var id: String { rawValue }
 }
 
+enum LabTopic: String, CaseIterable, Identifiable {
+    case input = "Input"
+    case permission = "Permission"
+
+    var id: String { rawValue }
+}
+
+enum PermissionLabStage: String, CaseIterable, Identifiable {
+    case context = "이유"
+    case request = "요청"
+    case recovery = "복구"
+
+    var id: String { rawValue }
+}
+
 struct LabScreen: View {
+    @State private var topic: LabTopic = ScreenshotMode.current == .labPermission ? .permission : .input
     @State private var mode: LabMode = .good
     @State private var email = "wrong-email"
     @State private var note = ""
     @State private var wantsTips = true
+    @State private var permissionStage: PermissionLabStage = ScreenshotMode.current == .labPermission ? .recovery : .context
     @FocusState private var focusedField: Field?
 
     enum Field: Hashable {
@@ -1205,72 +1223,91 @@ struct LabScreen: View {
     var body: some View {
         Form {
             Section {
+                Picker("Lab", selection: $topic) {
+                    ForEach(LabTopic.allCases) { topic in
+                        Text(topic.rawValue).tag(topic)
+                    }
+                }
+                .pickerStyle(.segmented)
+                .accessibilityLabel("실습 주제")
+            } footer: {
+                Text(topic == .input ? "실습 1. 입력 흐름을 만지며 검증합니다." : "실습 2. 권한 요청 타이밍과 거절 후 복구를 점검합니다.")
+            }
+
+            Section {
                 Picker("Mode", selection: $mode) {
                     ForEach(LabMode.allCases) { mode in
                         Text(mode.rawValue).tag(mode)
                     }
                 }
                 .pickerStyle(.segmented)
-                .accessibilityLabel("실습 모드")
+                .accessibilityLabel("비교 모드")
             } footer: {
-                Text(mode == .good ? "실습 1. 라벨, keyboardType, 필드 바로 아래 오류, 키보드 toolbar를 함께 확인합니다." : "Bad는 무엇이 문제인지 일부러 불편하게 보여주는 비교용입니다.")
+                Text(mode == .good ? goodModeCopy : badModeCopy)
             }
 
-            if mode == .bad {
-                badPracticeSection
-            } else {
-                goodPracticeSection
-            }
-
-            Section {
-                Button {
-                    focusedField = nil
-                } label: {
-                    Label(canSubmit ? "검토 요청하기" : "입력 상태 확인하기", systemImage: canSubmit ? "paperplane.fill" : "checkmark.circle")
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.borderedProminent)
-                .disabled(mode == .good && !canSubmit)
-            } footer: {
-                Text(mode == .good ? "비활성 버튼은 이유가 필드 가까이에 보여야 합니다." : "Bad 예시는 버튼이 먼저 보이고, 사용자가 무엇을 고쳐야 하는지 나중에 알게 됩니다.")
+            switch topic {
+            case .input:
+                inputLabContent
+                inputActionSection
+            case .permission:
+                permissionLabContent
             }
         }
-        .navigationTitle("Input Lab")
+        .navigationTitle(topic == .input ? "Input Lab" : "Permission Lab")
         .navigationBarTitleDisplayMode(.large)
+        .safeAreaInset(edge: .bottom) {
+            Color.clear.frame(height: topic == .permission ? 72 : 0)
+        }
         .toolbar {
-            ToolbarItemGroup(placement: .keyboard) {
-                Button("이메일") { focusedField = .email }
-                Button("설명") { focusedField = .note }
-                Spacer()
-                Button("완료") { focusedField = nil }
+            if topic == .input {
+                ToolbarItemGroup(placement: .keyboard) {
+                    Button("이메일") { focusedField = .email }
+                    Button("설명") { focusedField = .note }
+                    Spacer()
+                    Button("완료") { focusedField = nil }
+                }
             }
         }
         .onAppear {
-            if note.isEmpty {
-                note = mode == .good ? "" : "짧음"
-            }
-            if mode == .good {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    focusedField = .email
-                }
-            }
+            configureForCurrentState()
         }
-        .onChange(of: mode) { _, newMode in
-            if newMode == .bad {
-                email = "wrong-email"
-                note = "짧음"
-                focusedField = nil
-            } else {
-                email = "wrong-email"
-                note = ""
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
-                    focusedField = .email
-                }
-            }
+        .onChange(of: topic) { _, _ in
+            configureForCurrentState()
+        }
+        .onChange(of: mode) { _, _ in
+            configureForCurrentState()
         }
     }
 
-    private var goodPracticeSection: some View {
+    private var goodModeCopy: String {
+        switch topic {
+        case .input:
+            return "Good은 라벨, keyboardType, 필드 바로 아래 오류, 키보드 toolbar를 함께 확인합니다."
+        case .permission:
+            return "Good 흐름은 기능을 쓰려는 순간에 이유를 설명하고, 거절 후에는 설정에서 복구할 수 있게 안내합니다."
+        }
+    }
+
+    private var badModeCopy: String {
+        switch topic {
+        case .input:
+            return "Bad는 무엇이 문제인지 일부러 불편하게 보여주는 비교용입니다."
+        case .permission:
+            return "Bad는 앱 실행 직후 맥락 없이 권한을 요구하거나, 거절 후 사용자를 막아버립니다."
+        }
+    }
+
+    @ViewBuilder
+    private var inputLabContent: some View {
+        if mode == .bad {
+            badInputSection
+        } else {
+            goodInputSection
+        }
+    }
+
+    private var goodInputSection: some View {
         Group {
             Section {
                 TextField("name@example.com", text: $email)
@@ -1285,6 +1322,7 @@ struct LabScreen: View {
                     Label("이메일 형식에 맞게 입력해 주세요.", systemImage: "exclamationmark.circle.fill")
                         .font(.footnote)
                         .foregroundStyle(.red)
+                        .accessibilityLabel("오류, 이메일 형식에 맞게 입력해 주세요")
                 }
             } header: {
                 Text("이메일")
@@ -1311,7 +1349,7 @@ struct LabScreen: View {
         }
     }
 
-    private var badPracticeSection: some View {
+    private var badInputSection: some View {
         Group {
             Section {
                 TextField("입력", text: $email)
@@ -1332,6 +1370,204 @@ struct LabScreen: View {
             Section("나중에 보이는 오류") {
                 Label("이메일이 잘못되었습니다", systemImage: "exclamationmark.triangle")
                 Label("설명이 너무 짧습니다", systemImage: "exclamationmark.triangle")
+            }
+        }
+    }
+
+    private var inputActionSection: some View {
+        Section {
+            Button {
+                focusedField = nil
+            } label: {
+                Label(canSubmit ? "검토 요청하기" : "입력 상태 확인하기", systemImage: canSubmit ? "paperplane.fill" : "checkmark.circle")
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.borderedProminent)
+            .disabled(mode == .good && !canSubmit)
+        } footer: {
+            Text(mode == .good ? "비활성 버튼은 이유가 필드 가까이에 보여야 합니다." : "Bad 예시는 버튼이 먼저 보이고, 사용자가 무엇을 고쳐야 하는지 나중에 알게 됩니다.")
+        }
+    }
+
+    @ViewBuilder
+    private var permissionLabContent: some View {
+        if mode == .bad {
+            badPermissionSection
+        } else {
+            goodPermissionSection
+        }
+    }
+
+    private var goodPermissionSection: some View {
+        Group {
+            Section {
+                Picker("권한 흐름", selection: $permissionStage) {
+                    ForEach(PermissionLabStage.allCases) { stage in
+                        Text(stage.rawValue).tag(stage)
+                    }
+                }
+                .pickerStyle(.segmented)
+                .accessibilityLabel("권한 흐름 단계")
+            } footer: {
+                Text("실제 시스템 권한 팝업은 필요한 기능을 시작한 뒤 한 번만 표시됩니다. Lab에서는 상태 전환으로 흐름을 연습합니다.")
+            }
+
+            Section {
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Good 흐름 · \(permissionStageIndex)단계")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(.secondary)
+                    Label(permissionTitle, systemImage: permissionIcon)
+                        .font(.headline)
+                        .foregroundStyle(permissionTint)
+
+                    Text(permissionBody)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+
+                    HStack {
+                        Button(permissionPrimaryAction) {
+                            advancePermissionStage()
+                        }
+                        .buttonStyle(.borderedProminent)
+
+                        if permissionStage == .recovery {
+                            Button("나중에") {}
+                                .buttonStyle(.bordered)
+                        }
+                    }
+                }
+                .padding(.vertical, 6)
+            } header: {
+                Text("카메라 권한")
+            } footer: {
+                Text("권한은 앱의 편의가 아니라 사용자의 현재 목적과 연결될 때 요청합니다.")
+            }
+        }
+    }
+
+    private var badPermissionSection: some View {
+        Group {
+            Section {
+                Label("앱 실행 직후 카메라 접근 요청", systemImage: "camera.fill")
+                    .foregroundStyle(.red)
+                Text("사용자는 아직 카메라 기능을 쓰려는 상황이 아니어서 왜 필요한지 알기 어렵습니다.")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                Button("시스템 요청") {}
+                    .buttonStyle(.borderedProminent)
+            } header: {
+                Text("맥락 없는 요청")
+            } footer: {
+                Text("문제: 시스템 alert는 되돌리기 어렵고, 거절 후 회복 설명도 없습니다.")
+                    .foregroundStyle(.red)
+            }
+
+            Section("거절 후 막힘") {
+                Label("촬영 기능을 사용할 수 없습니다", systemImage: "xmark.octagon.fill")
+                    .foregroundStyle(.red)
+                Text("Settings로 이동하는 길이나 대체 행동이 없습니다.")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+            }
+        }
+    }
+
+    private var permissionStageIndex: Int {
+        switch permissionStage {
+        case .context:
+            return 1
+        case .request:
+            return 2
+        case .recovery:
+            return 3
+        }
+    }
+
+    private var permissionTitle: String {
+        switch permissionStage {
+        case .context:
+            return "영수증을 스캔하려면 카메라가 필요해요"
+        case .request:
+            return "지금 카메라 접근을 요청합니다"
+        case .recovery:
+            return "권한이 꺼져 있어요"
+        }
+    }
+
+    private var permissionBody: String {
+        switch permissionStage {
+        case .context:
+            return "먼저 사용자가 하려는 작업과 권한의 이유를 연결합니다. 시스템 alert보다 앱 안 설명이 먼저입니다."
+        case .request:
+            return "사용자가 계속하기를 선택한 뒤 시스템 시스템 요청으로 이어집니다. 같은 시스템 요청 팝업을 반복해서 띄우지 않습니다."
+        case .recovery:
+            return "권한이 거절된 뒤에는 같은 시스템 요청 팝업을 다시 표시할 수 없습니다. 제한되는 기능을 알려주고, 설정에서 권한을 다시 켤 수 있게 안내합니다."
+        }
+    }
+
+    private var permissionIcon: String {
+        switch permissionStage {
+        case .context:
+            return "camera.viewfinder"
+        case .request:
+            return "hand.raised.fill"
+        case .recovery:
+            return "gearshape.fill"
+        }
+    }
+
+    private var permissionTint: Color {
+        switch permissionStage {
+        case .context:
+            return .blue
+        case .request:
+            return .orange
+        case .recovery:
+            return .purple
+        }
+    }
+
+    private var permissionPrimaryAction: String {
+        switch permissionStage {
+        case .context:
+            return "계속"
+        case .request:
+            return "시스템 요청 보기"
+        case .recovery:
+            return "설정 열기"
+        }
+    }
+
+    private func advancePermissionStage() {
+        switch permissionStage {
+        case .context:
+            permissionStage = .request
+        case .request:
+            permissionStage = .recovery
+        case .recovery:
+            permissionStage = .context
+        }
+    }
+
+    private func configureForCurrentState() {
+        if topic == .input {
+            email = "wrong-email"
+            note = mode == .good ? "" : "짧음"
+            if mode == .good {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    focusedField = .email
+                }
+            } else {
+                focusedField = nil
+            }
+        } else {
+            focusedField = nil
+            if ScreenshotMode.current == .labPermission {
+                permissionStage = .recovery
+            } else if mode == .good {
+                permissionStage = .context
             }
         }
     }
