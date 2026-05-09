@@ -39,6 +39,13 @@ struct RootView: View {
                 NavigationStack { FeedbackStateScreen(mode: .empty) }
             case .feedbackError:
                 NavigationStack { FeedbackStateScreen(mode: .error) }
+            case .accessibilityDynamicType:
+                NavigationStack { AccessibilityLessonScreen(mode: .dynamicType) }
+                    .environment(\.dynamicTypeSize, .accessibility1)
+            case .accessibilityVoiceOver:
+                NavigationStack { AccessibilityLessonScreen(mode: .voiceOver) }
+            case .accessibilityTouchTarget:
+                NavigationStack { AccessibilityLessonScreen(mode: .touchTarget) }
             case .normal, .compare, .checklist, .filterSheet:
                 tabContent
             }
@@ -105,6 +112,9 @@ enum ScreenshotMode: String {
     case feedbackLoading
     case feedbackEmpty
     case feedbackError
+    case accessibilityDynamicType
+    case accessibilityVoiceOver
+    case accessibilityTouchTarget
 
     static var current: ScreenshotMode {
         guard let index = CommandLine.arguments.firstIndex(of: "--ivibe-screenshot"),
@@ -120,7 +130,7 @@ enum ScreenshotMode: String {
             return .compare
         case .checklist:
             return .checklist
-        case .normal, .structureDetail, .filterSheet, .navigationTitleLarge, .navigationInlineBack, .navigationToolbar, .formOverview, .formKeyboard, .formValidation, .privacyPrePrompt, .privacySystemPrompt, .privacyRecovery, .feedbackLoading, .feedbackEmpty, .feedbackError:
+        case .normal, .structureDetail, .filterSheet, .navigationTitleLarge, .navigationInlineBack, .navigationToolbar, .formOverview, .formKeyboard, .formValidation, .privacyPrePrompt, .privacySystemPrompt, .privacyRecovery, .feedbackLoading, .feedbackEmpty, .feedbackError, .accessibilityDynamicType, .accessibilityVoiceOver, .accessibilityTouchTarget:
             return .learn
         }
     }
@@ -186,6 +196,16 @@ struct LearnScreen: View {
                         title: "Loading / Empty / Error",
                         subtitle: "기다림, 빈 화면, 실패 후 복구를 구분합니다.",
                         symbol: "exclamationmark.arrow.trianglehead.2.clockwise.rotate.90"
+                    )
+                }
+
+                NavigationLink {
+                    AccessibilityLessonScreen(mode: .dynamicType)
+                } label: {
+                    LessonRow(
+                        title: "Accessibility Basics",
+                        subtitle: "큰 글자, VoiceOver, 터치 영역을 기본값으로 확인합니다.",
+                        symbol: "accessibility"
                     )
                 }
             } header: {
@@ -667,6 +687,176 @@ private extension FeedbackStateMode {
             return "빈 상태는 문제 상황이 아니라 다음 행동을 시작하게 만드는 안내 화면입니다."
         case .error:
             return "복구 가능한 오류는 retry를, 파괴적 작업은 confirmation을 함께 설계합니다."
+        }
+    }
+}
+
+
+enum AccessibilityLessonMode {
+    case dynamicType
+    case voiceOver
+    case touchTarget
+}
+
+struct AccessibilityLessonScreen: View {
+    let mode: AccessibilityLessonMode
+
+    var body: some View {
+        List {
+            Section {
+                VStack(alignment: .leading, spacing: 16) {
+                    Image(systemName: mode.symbol)
+                        .font(.system(size: 42, weight: .semibold))
+                        .foregroundStyle(mode.tint)
+                        .frame(width: 58, height: 58)
+                        .background(mode.tint.opacity(0.14), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+                        .accessibilityHidden(true)
+
+                    Text(mode.headline)
+                        .font(.title2.weight(.bold))
+                        .fixedSize(horizontal: false, vertical: true)
+
+                    Text(mode.explanation)
+                        .font(.body)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                .padding(.vertical, 8)
+            }
+
+            Section("좋은 기본값") {
+                ForEach(mode.goodSignals, id: \.self) { signal in
+                    Label(signal, systemImage: "checkmark.circle")
+                }
+            }
+
+            Section {
+                if mode == .touchTarget {
+                    VStack(alignment: .leading, spacing: 12) {
+                        Button("주요 작업 계속하기") {}
+                            .buttonStyle(.borderedProminent)
+                            .frame(minHeight: 44)
+
+                        HStack(spacing: 12) {
+                            Button {
+                            } label: {
+                                Label("좋아요", systemImage: "hand.thumbsup")
+                                    .frame(minWidth: 44, minHeight: 44)
+                            }
+                            .buttonStyle(.bordered)
+
+                            Button {
+                            } label: {
+                                Label("공유", systemImage: "square.and.arrow.up")
+                                    .frame(minWidth: 44, minHeight: 44)
+                            }
+                            .buttonStyle(.bordered)
+                        }
+                    }
+                } else if mode == .voiceOver {
+                    HStack(spacing: 14) {
+                        Image(systemName: "bell.badge")
+                            .font(.title2)
+                            .foregroundStyle(.orange)
+                            .frame(width: 44, height: 44)
+                            .background(.orange.opacity(0.12), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+                            .accessibilityHidden(true)
+
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("권한 요청 전에 알림")
+                                .font(.headline)
+                            Text("VoiceOver는 아이콘이 아니라 의미를 읽어야 합니다.")
+                                .font(.footnote)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel("권한 요청 전에 알림")
+                    .accessibilityHint("아이콘만 보이는 버튼에도 읽을 수 있는 이름이 필요합니다.")
+                } else {
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("큰 글자에서도 정보가 잘리지 않아야 합니다.")
+                            .font(.headline)
+                        Text("고정 높이 카드나 한 줄 제한은 Dynamic Type에서 중요한 설명을 숨길 수 있습니다. 텍스트가 여러 줄로 늘어나도 구조가 유지되는지 확인합니다.")
+                            .font(.body)
+                            .foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                }
+            } header: {
+                Text("실제 컨트롤")
+            } footer: {
+                Text(mode.footer)
+            }
+        }
+        .navigationTitle(mode.title)
+        .navigationBarTitleDisplayMode(mode == .dynamicType ? .large : .inline)
+    }
+}
+
+private extension AccessibilityLessonMode {
+    var title: String {
+        switch self {
+        case .dynamicType: return "Dynamic Type"
+        case .voiceOver: return "VoiceOver"
+        case .touchTarget: return "Touch Target"
+        }
+    }
+
+    var symbol: String {
+        switch self {
+        case .dynamicType: return "textformat.size"
+        case .voiceOver: return "speaker.wave.2"
+        case .touchTarget: return "hand.tap"
+        }
+    }
+
+    var tint: Color {
+        switch self {
+        case .dynamicType: return .blue
+        case .voiceOver: return .purple
+        case .touchTarget: return .green
+        }
+    }
+
+    var headline: String {
+        switch self {
+        case .dynamicType: return "큰 글자에서도 화면이 무너지지 않아야 합니다"
+        case .voiceOver: return "보이는 모양보다 읽히는 의미가 중요합니다"
+        case .touchTarget: return "누를 수 있는 영역은 충분히 커야 합니다"
+        }
+    }
+
+    var explanation: String {
+        switch self {
+        case .dynamicType:
+            return "텍스트 크기를 키워도 제목, 설명, 버튼이 잘리지 않고 자연스럽게 여러 줄로 흐르는지 확인합니다."
+        case .voiceOver:
+            return "아이콘만 있는 버튼, 상태 카드, 이미지에는 VoiceOver가 읽을 수 있는 이름과 힌트가 필요합니다."
+        case .touchTarget:
+            return "작아 보이는 아이콘 버튼도 실제 터치 영역은 최소 44pt 이상 확보해야 안정적으로 누를 수 있습니다."
+        }
+    }
+
+    var goodSignals: [String] {
+        switch self {
+        case .dynamicType:
+            return ["시스템 폰트와 text style 사용", "한 줄 고정 대신 자연스러운 줄바꿈", "큰 글자에서 버튼과 설명이 겹치지 않음"]
+        case .voiceOver:
+            return ["아이콘 버튼에 명확한 accessibility label", "장식 이미지는 accessibilityHidden 처리", "상태와 다음 행동을 함께 읽을 수 있음"]
+        case .touchTarget:
+            return ["주요 버튼은 쉽게 누를 수 있는 높이", "아이콘 버튼도 44pt 이상 터치 영역", "버튼 사이 간격이 너무 좁지 않음"]
+        }
+    }
+
+    var footer: String {
+        switch self {
+        case .dynamicType:
+            return "접근성은 별도 모드가 아니라 기본 UI가 다양한 사용자 설정을 견디는 능력입니다."
+        case .voiceOver:
+            return "화면을 보지 않고도 현재 상태와 가능한 행동을 이해할 수 있어야 합니다."
+        case .touchTarget:
+            return "시각적으로 작은 아이콘이라도 실제 hit target은 충분히 커야 합니다."
         }
     }
 }

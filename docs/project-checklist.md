@@ -17,7 +17,7 @@
 - [x] Forms / Keyboard / Validation
 - [x] Permissions / Privacy
 - [x] Loading / Empty / Error State
-- [ ] Accessibility 기본
+- [x] Accessibility 기본
 
 ## 콘텐츠 품질 기준
 
@@ -51,4 +51,5 @@
 - [x] Permission / Privacy 실제 앱 화면 및 시스템 권한 alert 캡처
 - [x] Navigation Bar / Title / Toolbar 실제 앱 화면 캡처
 - [x] Loading / Empty / Error State 실제 앱 화면 캡처
+- [x] Accessibility 기본 실제 앱 화면 캡처
 - [x] GitHub Pages 문서와 챕터 ID 매칭
