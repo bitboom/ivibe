@@ -15,6 +15,12 @@ struct RootView: View {
             switch screenshotMode {
             case .structureDetail:
                 NavigationStack { LessonDetailScreen() }
+            case .navigationTitleLarge:
+                NavigationStack { NavigationTitleLargeScreen() }
+            case .navigationInlineBack:
+                NavigationBackDemoContainer()
+            case .navigationToolbar:
+                NavigationStack { NavigationToolbarScreen() }
             case .formOverview:
                 NavigationStack { FormLessonScreen(mode: .overview) }
             case .formKeyboard:
@@ -81,6 +87,9 @@ enum ScreenshotMode: String {
     case checklist
     case structureDetail
     case filterSheet
+    case navigationTitleLarge
+    case navigationInlineBack
+    case navigationToolbar
     case formOverview
     case formKeyboard
     case formValidation
@@ -102,7 +111,7 @@ enum ScreenshotMode: String {
             return .compare
         case .checklist:
             return .checklist
-        case .normal, .structureDetail, .filterSheet, .formOverview, .formKeyboard, .formValidation, .privacyPrePrompt, .privacySystemPrompt, .privacyRecovery:
+        case .normal, .structureDetail, .filterSheet, .navigationTitleLarge, .navigationInlineBack, .navigationToolbar, .formOverview, .formKeyboard, .formValidation, .privacyPrePrompt, .privacySystemPrompt, .privacyRecovery:
             return .learn
         }
     }
@@ -128,6 +137,16 @@ struct LearnScreen: View {
                         title: "NavigationStack / Tab Bar / Sheet",
                         subtitle: "앱의 큰 방, 깊이, 잠깐 작업을 구분합니다.",
                         symbol: "rectangle.3.group"
+                    )
+                }
+
+                NavigationLink {
+                    NavigationTitleLargeScreen()
+                } label: {
+                    LessonRow(
+                        title: "Navigation Bar / Title / Toolbar",
+                        subtitle: "제목, 뒤로가기, 화면 액션의 위치를 구분합니다.",
+                        symbol: "rectangle.topthird.inset.filled"
                     )
                 }
 
@@ -479,6 +498,124 @@ private extension PrivacyLessonMode {
         case .prePrompt: return "사진 리뷰 시작"
         case .systemPrompt: return "카메라 접근 요청"
         case .recovery: return "현재 접근 불가"
+        }
+    }
+}
+
+
+struct NavigationTitleLargeScreen: View {
+    var body: some View {
+        List {
+            Section {
+                NavigationLink("상세 화면으로 들어가기") {
+                    NavigationInlineDetailScreen()
+                }
+                Label("큰 제목은 현재 영역을 먼저 인식하게 합니다.", systemImage: "textformat.size")
+                Label("Toolbar 액션은 화면 전체에 필요한 작업만 둡니다.", systemImage: "slider.horizontal.3")
+            } header: {
+                Text("Navigation Bar")
+            } footer: {
+                Text("최상위 화면에서는 large title이 사용자의 위치를 빠르게 알려줍니다.")
+            }
+
+            Section("이 화면에서 확인할 것") {
+                Label("제목은 콘텐츠의 목적을 말하는가", systemImage: "checkmark.circle")
+                Label("액션은 오른쪽 상단 한두 개로 충분한가", systemImage: "checkmark.circle")
+                Label("목록에서 상세로 들어가는 흐름이 보이는가", systemImage: "checkmark.circle")
+            }
+        }
+        .navigationTitle("Titles")
+        .navigationBarTitleDisplayMode(.large)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                } label: {
+                    Label("Filter", systemImage: "line.3.horizontal.decrease.circle")
+                }
+            }
+        }
+    }
+}
+
+struct NavigationBackDemoContainer: View {
+    @State private var path = ["detail"]
+
+    var body: some View {
+        NavigationStack(path: $path) {
+            NavigationTitleLargeScreen()
+                .navigationDestination(for: String.self) { _ in
+                    NavigationInlineDetailScreen()
+                }
+        }
+    }
+}
+
+struct NavigationInlineDetailScreen: View {
+    var body: some View {
+        List {
+            Section {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("상세 화면")
+                        .font(.headline)
+                    Text("한 단계 안으로 들어온 화면은 보통 inline title과 시스템 back button을 사용합니다.")
+                        .foregroundStyle(.secondary)
+                }
+                .padding(.vertical, 4)
+            }
+
+            Section("좋은 신호") {
+                Label("왼쪽 위 Back으로 이전 화면을 예측할 수 있음", systemImage: "chevron.backward.circle")
+                Label("중앙 제목이 현재 화면만 짧게 설명함", systemImage: "textformat")
+                Label("본문은 제목을 반복하지 않고 다음 정보를 보여줌", systemImage: "doc.text")
+            }
+        }
+        .navigationTitle("Detail")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                } label: {
+                    Label("Share", systemImage: "square.and.arrow.up")
+                }
+            }
+        }
+    }
+}
+
+struct NavigationToolbarScreen: View {
+    @State private var notificationsEnabled = true
+    @State private var compactMode = false
+
+    var body: some View {
+        Form {
+            Section("화면 액션") {
+                Toggle("중요 알림만 보기", isOn: $notificationsEnabled)
+                Toggle("간단 모드", isOn: $compactMode)
+            }
+
+            Section {
+                Text("Toolbar는 현재 화면에서 자주 쓰는 액션만 올려야 합니다. 저장/취소처럼 작업을 끝내는 버튼과 필터/공유처럼 보조 액션을 구분합니다.")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .navigationTitle("Actions")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                Button("취소") {}
+            }
+            ToolbarItem(placement: .confirmationAction) {
+                Button("저장") {}
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                Menu {
+                    Button("공유", systemImage: "square.and.arrow.up") {}
+                    Button("복제", systemImage: "doc.on.doc") {}
+                } label: {
+                    Label("More", systemImage: "ellipsis.circle")
+                }
+            }
         }
     }
 }

@@ -13,6 +13,7 @@
 - [x] Home
 - [x] Start: iOS 앱은 웹사이트가 아니다
 - [x] NavigationStack / Tab Bar / Sheet
+- [x] Navigation Bar / Title / Toolbar
 - [x] Forms / Keyboard / Validation
 - [x] Permissions / Privacy
 - [ ] Loading / Empty / Error State
@@ -48,4 +49,5 @@
 - [x] Checklist 탭
 - [x] iOS 26 Simulator 스크린샷 캡처 파이프라인
 - [x] Permission / Privacy 실제 앱 화면 및 시스템 권한 alert 캡처
+- [x] Navigation Bar / Title / Toolbar 실제 앱 화면 캡처
 - [x] GitHub Pages 문서와 챕터 ID 매칭

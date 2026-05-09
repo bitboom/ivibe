@@ -11,6 +11,7 @@ export default defineConfig({
     nav: [
       { text: 'Start', link: '/guide/start' },
       { text: 'Structure', link: '/guide/navigation-structure' },
+      { text: 'Navigation UI', link: '/guide/navigation-bars-titles' },
       { text: 'Input', link: '/guide/forms-keyboard-validation' },
       { text: 'Privacy', link: '/guide/permissions-privacy' },
       { text: 'Checklist', link: '/checklists/ios-native' }
@@ -21,6 +22,7 @@ export default defineConfig({
         items: [
           { text: 'iOS 앱은 웹사이트가 아니다', link: '/guide/start' },
           { text: 'NavigationStack / Tab Bar / Sheet', link: '/guide/navigation-structure' },
+          { text: 'Navigation Bar / Title / Toolbar', link: '/guide/navigation-bars-titles' },
           { text: 'Form / Keyboard / Validation', link: '/guide/forms-keyboard-validation' },
           { text: 'Permission / Privacy', link: '/guide/permissions-privacy' },
           { text: 'iOS-native 체크리스트', link: '/checklists/ios-native' },
