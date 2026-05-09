@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "BA847223661BFAA8AC20392D"
+               BlueprintIdentifier = "90FFCB420EBC23EB39A4F5DE"
                BuildableName = "ivibe.app"
                BlueprintName = "ivibe"
                ReferencedContainer = "container:ivibe.xcodeproj">
@@ -30,7 +30,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "BA847223661BFAA8AC20392D"
+            BlueprintIdentifier = "90FFCB420EBC23EB39A4F5DE"
             BuildableName = "ivibe.app"
             BlueprintName = "ivibe"
             ReferencedContainer = "container:ivibe.xcodeproj">
@@ -53,7 +53,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "BA847223661BFAA8AC20392D"
+            BlueprintIdentifier = "90FFCB420EBC23EB39A4F5DE"
             BuildableName = "ivibe.app"
             BlueprintName = "ivibe"
             ReferencedContainer = "container:ivibe.xcodeproj">
@@ -70,7 +70,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "BA847223661BFAA8AC20392D"
+            BlueprintIdentifier = "90FFCB420EBC23EB39A4F5DE"
             BuildableName = "ivibe.app"
             BlueprintName = "ivibe"
             ReferencedContainer = "container:ivibe.xcodeproj">

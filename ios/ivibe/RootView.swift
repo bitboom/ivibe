@@ -1,4 +1,5 @@
 import SwiftUI
+import AVFoundation
 
 struct RootView: View {
     private let screenshotMode = ScreenshotMode.current
@@ -20,6 +21,12 @@ struct RootView: View {
                 NavigationStack { FormLessonScreen(mode: .keyboard) }
             case .formValidation:
                 NavigationStack { FormLessonScreen(mode: .validation) }
+            case .privacyPrePrompt:
+                NavigationStack { PrivacyLessonScreen(mode: .prePrompt) }
+            case .privacySystemPrompt:
+                NavigationStack { PrivacyLessonScreen(mode: .systemPrompt) }
+            case .privacyRecovery:
+                NavigationStack { PrivacyLessonScreen(mode: .recovery) }
             case .normal, .compare, .checklist, .filterSheet:
                 tabContent
             }
@@ -77,6 +84,9 @@ enum ScreenshotMode: String {
     case formOverview
     case formKeyboard
     case formValidation
+    case privacyPrePrompt
+    case privacySystemPrompt
+    case privacyRecovery
 
     static var current: ScreenshotMode {
         guard let index = CommandLine.arguments.firstIndex(of: "--ivibe-screenshot"),
@@ -92,7 +102,7 @@ enum ScreenshotMode: String {
             return .compare
         case .checklist:
             return .checklist
-        case .normal, .structureDetail, .filterSheet, .formOverview, .formKeyboard, .formValidation:
+        case .normal, .structureDetail, .filterSheet, .formOverview, .formKeyboard, .formValidation, .privacyPrePrompt, .privacySystemPrompt, .privacyRecovery:
             return .learn
         }
     }
@@ -131,11 +141,15 @@ struct LearnScreen: View {
                     )
                 }
 
-                LessonRow(
-                    title: "Permission / Privacy",
-                    subtitle: "권한 요청은 필요한 순간에 설명합니다.",
-                    symbol: "lock.shield"
-                )
+                NavigationLink {
+                    PrivacyLessonScreen(mode: .prePrompt)
+                } label: {
+                    LessonRow(
+                        title: "Permission / Privacy",
+                        subtitle: "권한 요청은 필요한 순간에 설명합니다.",
+                        symbol: "lock.shield"
+                    )
+                }
             } header: {
                 Text("START")
             } footer: {
@@ -344,6 +358,127 @@ struct FormLessonScreen: View {
     }
 }
 
+enum PrivacyLessonMode {
+    case prePrompt
+    case systemPrompt
+    case recovery
+}
+
+struct PrivacyLessonScreen: View {
+    let mode: PrivacyLessonMode
+    @State private var didRequestCamera = false
+
+    var body: some View {
+        List {
+            Section {
+                VStack(alignment: .leading, spacing: 12) {
+                    Image(systemName: mode.symbol)
+                        .font(.system(size: 42, weight: .semibold))
+                        .foregroundStyle(mode.tint)
+                        .frame(width: 58, height: 58)
+                        .background(mode.tint.opacity(0.14), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+
+                    Text(mode.headline)
+                        .font(.title2.weight(.bold))
+
+                    Text(mode.explanation)
+                        .font(.body)
+                        .foregroundStyle(.secondary)
+                }
+                .padding(.vertical, 8)
+            }
+
+            Section("좋은 권한 요청") {
+                Label("기능을 쓰려는 순간에 요청", systemImage: "checkmark.circle")
+                Label("요청 전에 이유와 이점을 설명", systemImage: "text.bubble")
+                Label("거절 후에는 설정 복구 경로 제공", systemImage: "gearshape")
+            }
+
+            Section {
+                Button(mode.primaryActionTitle) {
+                    requestCameraAccessIfNeeded()
+                }
+                .buttonStyle(.borderedProminent)
+                .disabled(mode == .recovery)
+
+                if mode == .recovery {
+                    Button("설정에서 카메라 접근 켜기") {}
+                    Text("권한이 거절된 뒤에는 같은 시스템 요청을 반복할 수 없습니다. 사용자가 설정에서 직접 바꿀 수 있게 안내해야 합니다.")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                } else {
+                    Text("앱 실행 직후가 아니라 사용자가 사진 리뷰 기능을 시작할 때 요청하는 예시입니다.")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                }
+            }
+        }
+        .navigationTitle("Privacy")
+        .navigationBarTitleDisplayMode(mode == .prePrompt ? .large : .inline)
+        .onAppear {
+            if mode == .systemPrompt {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+                    requestCameraAccessIfNeeded()
+                }
+            }
+        }
+    }
+
+    private func requestCameraAccessIfNeeded() {
+        guard !didRequestCamera else { return }
+        didRequestCamera = true
+        AVCaptureDevice.requestAccess(for: .video) { _ in }
+    }
+}
+
+private extension PrivacyLessonMode {
+    var symbol: String {
+        switch self {
+        case .prePrompt: return "camera.viewfinder"
+        case .systemPrompt: return "hand.raised.fill"
+        case .recovery: return "gearshape.fill"
+        }
+    }
+
+    var tint: Color {
+        switch self {
+        case .prePrompt: return .blue
+        case .systemPrompt: return .orange
+        case .recovery: return .red
+        }
+    }
+
+    var headline: String {
+        switch self {
+        case .prePrompt:
+            return "사진 리뷰를 시작할 때 카메라 접근이 필요해요"
+        case .systemPrompt:
+            return "시스템 권한 요청은 한 번만 분명하게"
+        case .recovery:
+            return "거절 후에는 설정에서 다시 켤 수 있게"
+        }
+    }
+
+    var explanation: String {
+        switch self {
+        case .prePrompt:
+            return "먼저 왜 필요한지 설명하고, 사용자가 기능을 시작할 준비가 되었을 때 iOS 권한 요청을 띄웁니다."
+        case .systemPrompt:
+            return "iOS 시스템 alert는 앱이 마음대로 꾸미는 화면이 아닙니다. 그래서 띄우기 전 맥락을 충분히 만들어야 합니다."
+        case .recovery:
+            return "권한을 거절한 사용자를 탓하지 말고, 기능 제한과 복구 방법을 짧고 명확하게 안내합니다."
+        }
+    }
+
+    var primaryActionTitle: String {
+        switch self {
+        case .prePrompt: return "사진 리뷰 시작"
+        case .systemPrompt: return "카메라 접근 요청"
+        case .recovery: return "현재 접근 불가"
+        }
+    }
+}
+
 struct CompareScreen: View {
     var body: some View {
         List {
@@ -351,11 +486,13 @@ struct CompareScreen: View {
                 Text("탭을 기능 버튼처럼 늘어놓기")
                 Text("상세 화면을 계속 Sheet로 띄우기")
                 Text("키보드가 CTA를 가리는데 그대로 두기")
+                Text("앱 실행 직후 권한을 먼저 요구하기")
             }
             Section("Good") {
                 Text("큰 영역은 Tab Bar")
                 Text("목록 → 상세는 NavigationStack")
                 Text("입력 오류는 필드 가까이에 표시")
+                Text("권한은 필요한 순간에 이유와 함께 요청")
             }
         }
         .navigationTitle("Compare")
@@ -386,6 +523,12 @@ struct ChecklistScreen: View {
                 Label("필드 라벨이 명확한가", systemImage: "checkmark.circle")
                 Label("키보드 타입이 입력 목적과 맞는가", systemImage: "checkmark.circle")
                 Label("오류를 고칠 위치 가까이에 보여주는가", systemImage: "checkmark.circle")
+            }
+
+            Section("Privacy") {
+                Label("권한이 필요한 기능을 쓰는 순간에 요청하는가", systemImage: "checkmark.circle")
+                Label("시스템 alert 전에 이유를 설명하는가", systemImage: "checkmark.circle")
+                Label("거절 후 설정 복구 경로를 제공하는가", systemImage: "checkmark.circle")
             }
         }
         .navigationTitle("Checklist")

@@ -12,6 +12,7 @@ export default defineConfig({
       { text: 'Start', link: '/guide/start' },
       { text: 'Structure', link: '/guide/navigation-structure' },
       { text: 'Input', link: '/guide/forms-keyboard-validation' },
+      { text: 'Privacy', link: '/guide/permissions-privacy' },
       { text: 'Checklist', link: '/checklists/ios-native' }
     ],
     sidebar: [
@@ -21,6 +22,7 @@ export default defineConfig({
           { text: 'iOS 앱은 웹사이트가 아니다', link: '/guide/start' },
           { text: 'NavigationStack / Tab Bar / Sheet', link: '/guide/navigation-structure' },
           { text: 'Form / Keyboard / Validation', link: '/guide/forms-keyboard-validation' },
+          { text: 'Permission / Privacy', link: '/guide/permissions-privacy' },
           { text: 'iOS-native 체크리스트', link: '/checklists/ios-native' },
           { text: '프로젝트 체크리스트', link: '/project-checklist' }
         ]
