@@ -2,10 +2,6 @@
 
 > 입력 화면은 “예쁘게 칸을 배치하는 일”이 아니라, 사용자가 막히지 않고 끝까지 제출할 수 있게 돕는 흐름입니다.
 
-<div class="article-summary-card compact-summary">
-  <p><strong>먼저 실제 앱 화면으로 보기</strong></p>
-  <p>이 페이지의 이미지는 ivibe iOS 앱을 iOS 26 Simulator에서 실행해 캡처한 화면입니다. Form, keyboard, validation 상태를 문서용 목업이 아니라 실제 SwiftUI 화면으로 확인합니다.</p>
-</div>
 
 ## 한눈에 보기
 

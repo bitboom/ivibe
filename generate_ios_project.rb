@@ -14,6 +14,12 @@ Dir['ios/ivibe/**/*.swift'].sort.each do |path|
   app_target.source_build_phase.add_file_reference(file)
 end
 
+assets_path = 'ios/ivibe/Assets.xcassets'
+if Dir.exist?(assets_path)
+  assets_file = files_group.new_file('Assets.xcassets')
+  app_target.resources_build_phase.add_file_reference(assets_file)
+end
+
 app_target.build_configurations.each do |config|
   config.build_settings['PRODUCT_BUNDLE_IDENTIFIER'] = 'com.bitboom.ivibe'
   config.build_settings['PRODUCT_NAME'] = 'ivibe'
@@ -27,6 +33,7 @@ app_target.build_configurations.each do |config|
   config.build_settings['SUPPORTED_PLATFORMS'] = 'iphoneos iphonesimulator'
   config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
   config.build_settings['ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME'] = 'AccentColor'
+  config.build_settings['ASSETCATALOG_COMPILER_APPICON_NAME'] = 'AppIcon'
   config.build_settings['ENABLE_PREVIEWS'] = 'YES'
 end
 

@@ -9,10 +9,6 @@
 
 ## 실제 앱 화면으로 먼저 보기
 
-<div class="article-summary-card compact-summary">
-  <p><strong>이 페이지의 이미지는 목업이 아니라 ivibe iOS 앱을 iOS 26 Simulator에서 실행해 캡처한 화면입니다.</strong></p>
-  <p>앞으로 문서에서 필요한 컴포넌트는 먼저 앱에 구현하고, 실제 iOS 화면을 찍어서 설명에 붙입니다.</p>
-</div>
 
 <div class="real-screenshot-grid">
   <figure class="real-screenshot-card">

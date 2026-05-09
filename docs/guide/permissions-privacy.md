@@ -13,8 +13,6 @@ title: Permission / Privacy
 
 ## 먼저 실제 앱 화면으로 보기
 
-아래 이미지는 `ivibe` SwiftUI 앱을 iOS 26 Simulator에서 실행해 캡처한 화면입니다.
-
 <div class="real-screenshot-grid">
   <figure class="real-screenshot-card">
     <img src="/screenshots/ios26/privacyPrePrompt.png" alt="카메라 권한을 요청하기 전에 기능 맥락과 이유를 설명하는 ivibe 앱 화면" />
