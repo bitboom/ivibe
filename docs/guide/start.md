@@ -7,6 +7,70 @@
   <p>AI/vibe coding으로 빠르게 만든 앱에서 자주 나오는 “웹페이지 같은 iOS 앱” 문제를 iOS 공식 문서 기준으로 분해합니다. 모든 주장은 <strong>공식 문서 근거</strong>와 <strong>ivibe 해석</strong>을 구분합니다.</p>
 </div>
 
+
+## 기본 iOS UI를 먼저 눈으로 보기
+
+첫 문서는 원칙을 읽기 전에, iOS 앱을 이루는 기본 표면을 먼저 눈으로 확인하는 곳입니다. 아래 화면들은 각 상세 글에서 다루는 핵심 UI입니다.
+
+<div class="real-screenshot-grid">
+  <figure class="real-screenshot-card">
+    <img src="/screenshots/ios26/navigation-normal.png" alt="Tab Bar와 NavigationStack으로 구성된 iOS 앱 구조 화면">
+    <figcaption>
+      <span>Structure</span>
+      <strong>Tab Bar / NavigationStack / Sheet</strong>
+      <p>최상위 섹션, 상세 이동, 짧은 작업 표면을 서로 섞지 않습니다.</p>
+      <p><a href="./navigation-structure">구조 가이드 보기 →</a></p>
+    </figcaption>
+  </figure>
+  <figure class="real-screenshot-card">
+    <img src="/screenshots/ios26/nav-title-large.png" alt="Large Title이 적용된 iOS Navigation Bar 화면">
+    <figcaption>
+      <span>Navigation UI</span>
+      <strong>Navigation Bar / Title / Toolbar</strong>
+      <p>현재 위치, 뒤로가기, 주요 행동을 시스템 내비게이션 영역에 배치합니다.</p>
+      <p><a href="./navigation-bars-titles">내비게이션 UI 보기 →</a></p>
+    </figcaption>
+  </figure>
+  <figure class="real-screenshot-card">
+    <img src="/screenshots/ios26/formOverview.png" alt="라벨과 도움말이 있는 iOS Form 입력 화면">
+    <figcaption>
+      <span>Input</span>
+      <strong>Form / Keyboard / Validation</strong>
+      <p>입력 목적, 키보드 타입, 오류 복구를 필드 가까이에 둡니다.</p>
+      <p><a href="./forms-keyboard-validation">입력 가이드 보기 →</a></p>
+    </figcaption>
+  </figure>
+  <figure class="real-screenshot-card">
+    <img src="/screenshots/ios26/privacyPrePrompt.png" alt="권한 요청 전 이유를 설명하는 iOS Privacy 화면">
+    <figcaption>
+      <span>Privacy</span>
+      <strong>Permission / Privacy</strong>
+      <p>권한은 앱 시작 즉시가 아니라 기능 맥락 안에서 이유를 설명한 뒤 요청합니다.</p>
+      <p><a href="./permissions-privacy">권한 가이드 보기 →</a></p>
+    </figcaption>
+  </figure>
+  <figure class="real-screenshot-card">
+    <img src="/screenshots/ios26/feedback-empty.png" alt="ContentUnavailableView로 구성된 iOS Empty State 화면">
+    <figcaption>
+      <span>Feedback</span>
+      <strong>Loading / Empty / Error State</strong>
+      <p>성공 화면뿐 아니라 대기, 빈 상태, 실패 후 다음 행동까지 설계합니다.</p>
+      <p><a href="./loading-empty-error">상태 가이드 보기 →</a></p>
+    </figcaption>
+  </figure>
+  <figure class="real-screenshot-card">
+    <img src="/screenshots/ios26/accessibility-dynamic-type.png" alt="Dynamic Type을 고려한 iOS Accessibility 화면">
+    <figcaption>
+      <span>Accessibility</span>
+      <strong>Dynamic Type / VoiceOver / Touch Target</strong>
+      <p>글자 크기, 읽기 순서, 최소 터치 영역을 기본 품질로 봅니다.</p>
+      <p><a href="./accessibility-basics">접근성 가이드 보기 →</a></p>
+    </figcaption>
+  </figure>
+</div>
+
+---
+
 ## 근거 수준
 
 ivibe는 좋은 예/나쁜 예를 만들 때 다음 순서로 판단합니다.
