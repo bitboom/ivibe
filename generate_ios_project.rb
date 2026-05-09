@@ -26,6 +26,7 @@ app_target.build_configurations.each do |config|
   config.build_settings['INFOPLIST_KEY_CFBundleDisplayName'] = 'ivibe'
   config.build_settings['INFOPLIST_KEY_NSCameraUsageDescription'] = '사진 리뷰 기능에서 iOS UX 문제를 촬영해 확인하기 위해 카메라 접근이 필요합니다.'
   config.build_settings['INFOPLIST_KEY_UILaunchScreen_Generation'] = 'YES'
+  config.build_settings['INFOPLIST_KEY_UISupportedInterfaceOrientations'] = 'UIInterfaceOrientationPortrait'
   config.build_settings['GENERATE_INFOPLIST_FILE'] = 'YES'
   config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '26.0'
   config.build_settings['SWIFT_VERSION'] = '5.0'

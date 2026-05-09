@@ -277,6 +277,7 @@ struct FormLessonScreen: View {
     @FocusState private var focusedField: Field?
 
     enum Field: Hashable {
+        case email
         case message
     }
 
@@ -290,6 +291,8 @@ struct FormLessonScreen: View {
                     .textInputAutocapitalization(.never)
                     .keyboardType(.emailAddress)
                     .textContentType(.emailAddress)
+                    .focused($focusedField, equals: .email)
+                    .submitLabel(.done)
 
                 if mode == .validation {
                     Label("올바른 이메일 주소를 입력해 주세요.", systemImage: "exclamationmark.circle.fill")
@@ -345,9 +348,10 @@ struct FormLessonScreen: View {
         }
         .onAppear {
             if mode == .keyboard {
+                email = "review@example.com"
                 message = "키보드가 입력 중인 필드와 완료 버튼을 가리지 않게 확인합니다."
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.65) {
-                    focusedField = .message
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
+                    focusedField = .email
                 }
             } else if mode == .validation {
                 appName = ""
