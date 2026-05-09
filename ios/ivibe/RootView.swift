@@ -46,7 +46,7 @@ struct RootView: View {
                 NavigationStack { AccessibilityLessonScreen(mode: .voiceOver) }
             case .accessibilityTouchTarget:
                 NavigationStack { AccessibilityLessonScreen(mode: .touchTarget) }
-            case .normal, .compare, .checklist, .filterSheet:
+            case .normal, .compare, .checklist, .lab, .filterSheet:
                 tabContent
             }
         }
@@ -98,6 +98,7 @@ enum ScreenshotMode: String {
     case normal
     case compare
     case checklist
+    case lab
     case structureDetail
     case filterSheet
     case navigationTitleLarge
@@ -130,6 +131,8 @@ enum ScreenshotMode: String {
             return .compare
         case .checklist:
             return .checklist
+        case .lab:
+            return .lab
         case .normal, .structureDetail, .filterSheet, .navigationTitleLarge, .navigationInlineBack, .navigationToolbar, .formOverview, .formKeyboard, .formValidation, .privacyPrePrompt, .privacySystemPrompt, .privacyRecovery, .feedbackLoading, .feedbackEmpty, .feedbackError, .accessibilityDynamicType, .accessibilityVoiceOver, .accessibilityTouchTarget:
             return .learn
         }
@@ -1168,14 +1171,169 @@ struct CompareScreen: View {
     }
 }
 
+enum LabMode: String, CaseIterable, Identifiable {
+    case bad = "Bad"
+    case good = "Good"
+
+    var id: String { rawValue }
+}
+
 struct LabScreen: View {
+    @State private var mode: LabMode = .good
+    @State private var email = "wrong-email"
+    @State private var note = ""
+    @State private var wantsTips = true
+    @FocusState private var focusedField: Field?
+
+    enum Field: Hashable {
+        case email
+        case note
+    }
+
+    private var isEmailValid: Bool {
+        email.contains("@") && email.contains(".")
+    }
+
+    private var isNoteValid: Bool {
+        note.trimmingCharacters(in: .whitespacesAndNewlines).count >= 10
+    }
+
+    private var canSubmit: Bool {
+        isEmailValid && isNoteValid
+    }
+
     var body: some View {
-        ContentUnavailableView(
-            "Lab 준비 중",
-            systemImage: "hand.tap",
-            description: Text("다음 단계에서 실제 터치 실습을 하나씩 추가합니다.")
-        )
-        .navigationTitle("Lab")
+        Form {
+            Section {
+                Picker("Mode", selection: $mode) {
+                    ForEach(LabMode.allCases) { mode in
+                        Text(mode.rawValue).tag(mode)
+                    }
+                }
+                .pickerStyle(.segmented)
+                .accessibilityLabel("실습 모드")
+            } footer: {
+                Text(mode == .good ? "실습 1. 라벨, keyboardType, 필드 바로 아래 오류, 키보드 toolbar를 함께 확인합니다." : "Bad는 무엇이 문제인지 일부러 불편하게 보여주는 비교용입니다.")
+            }
+
+            if mode == .bad {
+                badPracticeSection
+            } else {
+                goodPracticeSection
+            }
+
+            Section {
+                Button {
+                    focusedField = nil
+                } label: {
+                    Label(canSubmit ? "검토 요청하기" : "입력 상태 확인하기", systemImage: canSubmit ? "paperplane.fill" : "checkmark.circle")
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.borderedProminent)
+                .disabled(mode == .good && !canSubmit)
+            } footer: {
+                Text(mode == .good ? "비활성 버튼은 이유가 필드 가까이에 보여야 합니다." : "Bad 예시는 버튼이 먼저 보이고, 사용자가 무엇을 고쳐야 하는지 나중에 알게 됩니다.")
+            }
+        }
+        .navigationTitle("Input Lab")
+        .navigationBarTitleDisplayMode(.large)
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Button("이메일") { focusedField = .email }
+                Button("설명") { focusedField = .note }
+                Spacer()
+                Button("완료") { focusedField = nil }
+            }
+        }
+        .onAppear {
+            if note.isEmpty {
+                note = mode == .good ? "" : "짧음"
+            }
+            if mode == .good {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    focusedField = .email
+                }
+            }
+        }
+        .onChange(of: mode) { _, newMode in
+            if newMode == .bad {
+                email = "wrong-email"
+                note = "짧음"
+                focusedField = nil
+            } else {
+                email = "wrong-email"
+                note = ""
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                    focusedField = .email
+                }
+            }
+        }
+    }
+
+    private var goodPracticeSection: some View {
+        Group {
+            Section {
+                TextField("name@example.com", text: $email)
+                    .textInputAutocapitalization(.never)
+                    .keyboardType(.emailAddress)
+                    .textContentType(.emailAddress)
+                    .focused($focusedField, equals: .email)
+                    .submitLabel(.next)
+                    .onSubmit { focusedField = .note }
+
+                if !isEmailValid {
+                    Label("이메일 형식에 맞게 입력해 주세요.", systemImage: "exclamationmark.circle.fill")
+                        .font(.footnote)
+                        .foregroundStyle(.red)
+                }
+            } header: {
+                Text("이메일")
+            } footer: {
+                Text("목적에 맞는 keyboardType을 사용하고, 오류는 필드 바로 아래에 표시합니다.")
+            }
+
+            Section {
+                TextField("어떤 UX를 점검하고 싶나요?", text: $note, axis: .vertical)
+                    .lineLimit(3...5)
+                    .focused($focusedField, equals: .note)
+                    .submitLabel(.done)
+
+                if !isNoteValid {
+                    Label("최소 10자 이상 입력해 주세요.", systemImage: "exclamationmark.circle.fill")
+                        .font(.footnote)
+                        .foregroundStyle(.red)
+                }
+
+                Toggle("개선 팁 함께 받기", isOn: $wantsTips)
+            } header: {
+                Text("점검 내용")
+            }
+        }
+    }
+
+    private var badPracticeSection: some View {
+        Group {
+            Section {
+                TextField("입력", text: $email)
+                    .textInputAutocapitalization(.sentences)
+                    .keyboardType(.default)
+                    .focused($focusedField, equals: .email)
+
+                TextField("내용", text: $note, axis: .vertical)
+                    .lineLimit(1...2)
+                    .focused($focusedField, equals: .note)
+            } header: {
+                Text("폼")
+            } footer: {
+                Text("문제: 라벨이 모호하고, 이메일 키보드가 아니며, 오류 위치도 필드와 떨어져 있습니다.")
+                    .foregroundStyle(.red)
+            }
+
+            Section("나중에 보이는 오류") {
+                Label("이메일이 잘못되었습니다", systemImage: "exclamationmark.triangle")
+                Label("설명이 너무 짧습니다", systemImage: "exclamationmark.triangle")
+            }
+        }
     }
 }
 
