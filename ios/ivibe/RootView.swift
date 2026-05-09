@@ -145,6 +145,7 @@ enum AppTab: Hashable {
 
 struct LearnScreen: View {
     @Binding var isFilterPresented: Bool
+    @State private var helpItem: UXMapItem?
 
     private let mapItems: [UXMapItem] = [
         UXMapItem(
@@ -229,30 +230,39 @@ struct LearnScreen: View {
 
                     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 8) {
                         ForEach(mapItems) { item in
-                            NavigationLink {
-                                destination(for: item.destination)
-                            } label: {
-                                UXMapCard(item: item)
+                            ZStack(alignment: .topTrailing) {
+                                NavigationLink {
+                                    destination(for: item.destination)
+                                } label: {
+                                    UXMapCard(item: item)
+                                }
+                                .buttonStyle(.plain)
+                                .contextMenu {
+                                    Label(item.label, systemImage: item.symbol)
+                                    Text(item.subtitle)
+                                }
+
+                                Button {
+                                    helpItem = item
+                                } label: {
+                                    Image(systemName: "questionmark.circle.fill")
+                                        .font(.callout.weight(.semibold))
+                                        .foregroundStyle(.secondary)
+                                        .frame(width: 34, height: 34)
+                                        .contentShape(Circle())
+                                }
+                                .buttonStyle(.plain)
+                                .accessibilityLabel("\(item.label) 설명")
+                                .accessibilityHint("이 항목의 역할과 확인할 점을 보여줍니다.")
                             }
-                            .buttonStyle(.plain)
                         }
                     }
                 }
 
-                VStack(alignment: .leading, spacing: 10) {
-                    Text("Bad → Good으로 확인")
-                        .font(.headline)
-                    Text("탭을 버튼처럼 쓰기, 키보드가 CTA를 가리기, 앱 실행 즉시 권한 요청처럼 AI 앱에서 자주 생기는 문제를 비교합니다.")
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
-                }
-                .padding()
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 22, style: .continuous))
             }
             .padding(.horizontal, 16)
             .padding(.top, 12)
-            .padding(.bottom, 110)
+            .padding(.bottom, 150)
         }
         .background(Color(.systemGroupedBackground))
         .navigationTitle("ivibe")
@@ -264,6 +274,9 @@ struct LearnScreen: View {
                     Label("Filter", systemImage: "line.3.horizontal.decrease.circle")
                 }
             }
+        }
+        .popover(item: $helpItem) { item in
+            UXMapHelpPopover(item: item)
         }
     }
 
@@ -309,19 +322,14 @@ struct UXMapCard: View {
     let item: UXMapItem
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 5) {
-            HStack(alignment: .top) {
-                Image(systemName: item.symbol)
-                    .font(.headline.weight(.semibold))
-                    .foregroundStyle(item.tint)
-                    .frame(width: 32, height: 32)
-                    .background(item.tint.opacity(0.14), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
-                Spacer(minLength: 6)
-                Image(systemName: "chevron.right")
-                    .font(.caption2.weight(.bold))
-                    .foregroundStyle(.tertiary)
-                    .padding(.top, 6)
-            }
+        VStack(alignment: .leading, spacing: 7) {
+            Image(systemName: item.symbol)
+                .font(.headline.weight(.semibold))
+                .foregroundStyle(item.tint)
+                .frame(width: 34, height: 34)
+                .background(item.tint.opacity(0.14), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+
+            Spacer(minLength: 2)
 
             Text(item.label.uppercased())
                 .font(.caption2.weight(.heavy))
@@ -333,19 +341,58 @@ struct UXMapCard: View {
                 .lineLimit(2)
                 .minimumScaleFactor(0.86)
 
-            Text(item.subtitle)
-                .font(.caption2)
-                .foregroundStyle(.secondary)
-                .lineLimit(2)
-                .fixedSize(horizontal: false, vertical: true)
+            HStack(spacing: 4) {
+                Text("화면 보기")
+                    .font(.caption2.weight(.semibold))
+                    .foregroundStyle(.secondary)
+                Image(systemName: "chevron.right")
+                    .font(.caption2.weight(.bold))
+                    .foregroundStyle(.tertiary)
+            }
         }
         .padding(10)
-        .frame(maxWidth: .infinity, minHeight: 112, alignment: .topLeading)
+        .frame(maxWidth: .infinity, minHeight: 108, alignment: .topLeading)
         .background(.background, in: RoundedRectangle(cornerRadius: 22, style: .continuous))
         .overlay {
             RoundedRectangle(cornerRadius: 22, style: .continuous)
                 .stroke(Color(.separator).opacity(0.28), lineWidth: 0.5)
         }
+    }
+}
+
+struct UXMapHelpPopover: View {
+    let item: UXMapItem
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            HStack(spacing: 12) {
+                Image(systemName: item.symbol)
+                    .font(.title3.weight(.semibold))
+                    .foregroundStyle(item.tint)
+                    .frame(width: 40, height: 40)
+                    .background(item.tint.opacity(0.14), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(item.label)
+                        .font(.caption.weight(.bold))
+                        .foregroundStyle(item.tint)
+                    Text(item.title)
+                        .font(.headline.weight(.semibold))
+                }
+            }
+
+            Text(item.subtitle)
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+
+            Text("카드는 탭해서 실제 화면으로 이동하고, ? 버튼 또는 길게 누르기로 설명을 확인합니다.")
+                .font(.caption)
+                .foregroundStyle(.tertiary)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(20)
+        .frame(minWidth: 280, idealWidth: 320, maxWidth: 360, alignment: .leading)
     }
 }
 
