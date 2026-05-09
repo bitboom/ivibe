@@ -46,7 +46,7 @@ struct RootView: View {
                 NavigationStack { AccessibilityLessonScreen(mode: .voiceOver) }
             case .accessibilityTouchTarget:
                 NavigationStack { AccessibilityLessonScreen(mode: .touchTarget) }
-            case .normal, .compare, .checklist, .lab, .labPermission, .labDynamic, .filterSheet:
+            case .normal, .compare, .checklist, .lab, .labPermission, .labDynamic, .labAlert, .filterSheet:
                 tabContent
             }
         }
@@ -101,6 +101,7 @@ enum ScreenshotMode: String {
     case lab
     case labPermission
     case labDynamic
+    case labAlert
     case structureDetail
     case filterSheet
     case navigationTitleLarge
@@ -133,7 +134,7 @@ enum ScreenshotMode: String {
             return .compare
         case .checklist:
             return .checklist
-        case .lab, .labPermission, .labDynamic:
+        case .lab, .labPermission, .labDynamic, .labAlert:
             return .lab
         case .normal, .structureDetail, .filterSheet, .navigationTitleLarge, .navigationInlineBack, .navigationToolbar, .formOverview, .formKeyboard, .formValidation, .privacyPrePrompt, .privacySystemPrompt, .privacyRecovery, .feedbackLoading, .feedbackEmpty, .feedbackError, .accessibilityDynamicType, .accessibilityVoiceOver, .accessibilityTouchTarget:
             return .learn
@@ -1184,6 +1185,7 @@ enum LabTopic: String, CaseIterable, Identifiable {
     case input = "Input"
     case permission = "Permission"
     case dynamicType = "Dynamic"
+    case alert = "Alert"
 
     var id: String { rawValue }
 }
@@ -1203,6 +1205,8 @@ struct LabScreen: View {
             return .permission
         case .labDynamic:
             return .dynamicType
+        case .labAlert:
+            return .alert
         default:
             return .input
         }
@@ -1212,6 +1216,7 @@ struct LabScreen: View {
     @State private var note = ""
     @State private var wantsTips = true
     @State private var permissionStage: PermissionLabStage = ScreenshotMode.current == .labPermission ? .recovery : .context
+    @State private var showConfirmation = false
     @FocusState private var focusedField: Field?
 
     enum Field: Hashable {
@@ -1265,12 +1270,20 @@ struct LabScreen: View {
                 permissionLabContent
             case .dynamicType:
                 dynamicTypeLabContent
+            case .alert:
+                alertLabContent
             }
         }
         .navigationTitle(navigationTitle)
         .navigationBarTitleDisplayMode(.large)
         .safeAreaInset(edge: .bottom) {
-            Color.clear.frame(height: topic == .input ? 0 : 140)
+            Color.clear.frame(height: topic == .input ? 0 : 220)
+        }
+        .alert("이 프로젝트를 삭제할까요?", isPresented: $showConfirmation) {
+            Button("취소", role: .cancel) {}
+            Button("삭제", role: .destructive) {}
+        } message: {
+            Text("삭제한 프로젝트는 복구할 수 없습니다.")
         }
         .toolbar {
             if topic == .input {
@@ -1284,6 +1297,11 @@ struct LabScreen: View {
         }
         .onAppear {
             configureForCurrentState()
+            if ScreenshotMode.current == .labAlert {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                    showConfirmation = true
+                }
+            }
         }
         .onChange(of: topic) { _, _ in
             configureForCurrentState()
@@ -1301,6 +1319,8 @@ struct LabScreen: View {
             return "Permission Lab"
         case .dynamicType:
             return "Dynamic Type Lab"
+        case .alert:
+            return "Alert Lab"
         }
     }
 
@@ -1312,6 +1332,8 @@ struct LabScreen: View {
             return "실습 2. 권한 요청 타이밍과 거절 후 복구를 점검합니다."
         case .dynamicType:
             return "실습 3. 큰 글자에서도 레이아웃과 터치 영역이 충분히 유지되는지 확인합니다."
+        case .alert:
+            return "실습 4. 삭제·취소 같은 위험 행동을 확인 알림으로 점검합니다."
         }
     }
 
@@ -1323,6 +1345,8 @@ struct LabScreen: View {
             return "Good 흐름은 기능을 쓰려는 순간에 이유를 설명하고, 거절 후에는 설정에서 복구할 수 있게 안내합니다."
         case .dynamicType:
             return "Good 예시는 텍스트를 줄이지 않고, 줄바꿈과 충분한 여백, 44pt 이상의 버튼 높이로 대응합니다."
+        case .alert:
+            return "Good은 되돌릴 수 없는 행동만 확인하고, 취소와 파괴적 버튼을 분명히 나눕니다."
         }
     }
 
@@ -1334,6 +1358,8 @@ struct LabScreen: View {
             return "Bad는 앱 실행 직후 맥락 없이 권한을 요구하거나, 거절 후 사용자를 막아버립니다."
         case .dynamicType:
             return "Bad는 한 줄 고정, 작은 버튼, 잘리는 텍스트처럼 큰 글자 설정을 무시합니다."
+        case .alert:
+            return "Bad는 모든 행동에 alert를 띄우거나, 위험 행동을 즉시 실행해 사용자의 회복 기회를 없앱니다."
         }
     }
 
@@ -1583,6 +1609,67 @@ struct LabScreen: View {
         }
     }
 
+    @ViewBuilder
+    private var alertLabContent: some View {
+        if mode == .bad {
+            badAlertSection
+        } else {
+            goodAlertSection
+        }
+    }
+
+    private var goodAlertSection: some View {
+        Group {
+            Section {
+                VStack(alignment: .leading, spacing: 12) {
+                    Label("삭제 전 확인", systemImage: "exclamationmark.triangle.fill")
+                        .font(.headline)
+                        .foregroundStyle(.orange)
+                    Text("되돌릴 수 없는 행동은 사용자가 결과를 이해한 뒤 선택하게 합니다. 취소는 항상 안전한 경로로 남깁니다.")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                    Button(role: .destructive) {
+                        showConfirmation = true
+                    } label: {
+                        Label("프로젝트 삭제", systemImage: "trash")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.borderedProminent)
+                }
+                .padding(.vertical, 6)
+            } header: {
+                Text("확인 흐름")
+            } footer: {
+                Text("확인은 위험하거나 되돌리기 어려운 행동에만 사용합니다. 결과 설명, 파괴적 버튼, 취소 경로가 함께 보여야 합니다.")
+            }
+        }
+    }
+
+    private var badAlertSection: some View {
+        Group {
+            Section {
+                Label("저장할까요?", systemImage: "questionmark.circle")
+                Label("목록으로 갈까요?", systemImage: "questionmark.circle")
+                Label("탭을 바꿀까요?", systemImage: "questionmark.circle")
+            } header: {
+                Text("과한 확인")
+            } footer: {
+                Text("문제: 사소한 행동마다 alert를 띄우면 사용자는 확인을 읽지 않고 습관적으로 닫게 됩니다.")
+                    .foregroundStyle(.red)
+            }
+
+            Section("위험한 즉시 실행") {
+                Button(role: .destructive) {} label: {
+                    Label("바로 삭제", systemImage: "trash")
+                }
+                Text("되돌릴 수 없는 행동인데 결과 설명, 취소 경로, 확인 단계가 없습니다.")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+            }
+        }
+    }
+
     private var permissionStageIndex: Int {
         switch permissionStage {
         case .context:
@@ -1680,6 +1767,8 @@ struct LabScreen: View {
                 permissionStage = .context
             }
         case .dynamicType:
+            focusedField = nil
+        case .alert:
             focusedField = nil
         }
     }
