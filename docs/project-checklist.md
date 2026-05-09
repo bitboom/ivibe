@@ -3,10 +3,10 @@
 ## 배포
 
 - [x] GitHub 인증 확인
-- [ ] GitHub repo 생성
-- [ ] 초기 커밋 push
-- [ ] GitHub Pages workflow 실행 확인
-- [ ] Pages URL 접속 확인
+- [x] GitHub repo 생성
+- [x] 초기 커밋 push
+- [x] GitHub Pages workflow 실행 확인
+- [x] Pages URL 접속 확인
 
 ## 콘텐츠
 
