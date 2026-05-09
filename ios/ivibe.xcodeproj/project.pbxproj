@@ -7,86 +7,86 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		17E3BB5556163F5F70077A94 /* ivibeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E905B9041EDDEC144B8202 /* ivibeApp.swift */; };
-		3522D819B6EC4E05ED31C6AB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87B24077B4A7C6E99E9B8021 /* Assets.xcassets */; };
-		782F2003A39848A6E7CAA9D5 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2D70A7EC5502461D268E8E /* RootView.swift */; };
-		A5A9F4650EAB29182F0897D6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 169C6E9291B262B0C83AEB6F /* Foundation.framework */; };
+		4ADFAEC7C9FADB50C871044C /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FD688425E4453F6A79B535 /* RootView.swift */; };
+		70A0E5EB4147A467C69CCFA8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50FB0EF796123958B426668F /* Assets.xcassets */; };
+		C2316A5698C1E4C39767B01D /* ivibeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095F3113D1C47251857375A /* ivibeApp.swift */; };
+		E5D997165866A04B07C0C2AF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66321C83158A2A0D04DFB68D /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		169C6E9291B262B0C83AEB6F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		72E905B9041EDDEC144B8202 /* ivibeApp.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ivibeApp.swift; sourceTree = "<group>"; };
-		841F82A693DF0386C676B366 /* ivibe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ivibe.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		87B24077B4A7C6E99E9B8021 /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		8E2D70A7EC5502461D268E8E /* RootView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		2755799595884FFBD643C7F3 /* ivibe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ivibe.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		50FB0EF796123958B426668F /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		66321C83158A2A0D04DFB68D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		7095F3113D1C47251857375A /* ivibeApp.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ivibeApp.swift; sourceTree = "<group>"; };
+		B3FD688425E4453F6A79B535 /* RootView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		EB192B54BC7E37603B2C3D86 /* Frameworks */ = {
+		6BEC5CAC58499D02FC80C010 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A5A9F4650EAB29182F0897D6 /* Foundation.framework in Frameworks */,
+				E5D997165866A04B07C0C2AF /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0FE72D31DE8EF7A0E4277400 = {
+		3F14170E8B5183047B16F62D /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				48B4732037FAB493F8ABA0D7 /* Products */,
-				6EF50E1AB1AC310564D25EA9 /* Frameworks */,
-				90845FE44B1557788264028E /* ivibe */,
+				66321C83158A2A0D04DFB68D /* Foundation.framework */,
 			);
+			name = iOS;
 			sourceTree = "<group>";
 		};
-		48B4732037FAB493F8ABA0D7 /* Products */ = {
+		49AB6E75C33B5AA072B08D0B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				841F82A693DF0386C676B366 /* ivibe.app */,
+				2755799595884FFBD643C7F3 /* ivibe.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6EF50E1AB1AC310564D25EA9 /* Frameworks */ = {
+		6DF781D59F54E7132A5943AF /* ivibe */ = {
 			isa = PBXGroup;
 			children = (
-				BAD07E4139BE56EC02B49E88 /* iOS */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		90845FE44B1557788264028E /* ivibe */ = {
-			isa = PBXGroup;
-			children = (
-				8E2D70A7EC5502461D268E8E /* RootView.swift */,
-				72E905B9041EDDEC144B8202 /* ivibeApp.swift */,
-				87B24077B4A7C6E99E9B8021 /* Assets.xcassets */,
+				B3FD688425E4453F6A79B535 /* RootView.swift */,
+				7095F3113D1C47251857375A /* ivibeApp.swift */,
+				50FB0EF796123958B426668F /* Assets.xcassets */,
 			);
 			name = ivibe;
 			path = ivibe;
 			sourceTree = "<group>";
 		};
-		BAD07E4139BE56EC02B49E88 /* iOS */ = {
+		76EC383D0335E87D4DFE9BA8 = {
 			isa = PBXGroup;
 			children = (
-				169C6E9291B262B0C83AEB6F /* Foundation.framework */,
+				49AB6E75C33B5AA072B08D0B /* Products */,
+				C4BC3C6E2A480DABDF59E540 /* Frameworks */,
+				6DF781D59F54E7132A5943AF /* ivibe */,
 			);
-			name = iOS;
+			sourceTree = "<group>";
+		};
+		C4BC3C6E2A480DABDF59E540 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3F14170E8B5183047B16F62D /* iOS */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		839532771BE7714B9D951300 /* ivibe */ = {
+		88AB4096716B69D8D7CE9D04 /* ivibe */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 355C5E020C3A4278615D9A0B /* Build configuration list for PBXNativeTarget "ivibe" */;
+			buildConfigurationList = D6710A10BBC8F8AB5B7FA1AE /* Build configuration list for PBXNativeTarget "ivibe" */;
 			buildPhases = (
-				B7833DCE2F28C5BE3775D119 /* Sources */,
-				EB192B54BC7E37603B2C3D86 /* Frameworks */,
-				FAE1DE9CD7EFD842BB270B22 /* Resources */,
+				D3F465447DDA5A094F81E26E /* Sources */,
+				6BEC5CAC58499D02FC80C010 /* Frameworks */,
+				BF00DC5F8E7A8A096FF1C02C /* Resources */,
 			);
 			buildRules = (
 			);
@@ -94,19 +94,19 @@
 			);
 			name = ivibe;
 			productName = ivibe;
-			productReference = 841F82A693DF0386C676B366 /* ivibe.app */;
+			productReference = 2755799595884FFBD643C7F3 /* ivibe.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		7E4BFE2C7B1F65A4B8D29BCD /* Project object */ = {
+		429D1A0E364B2A6EDAE9ACA9 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1600;
 				LastUpgradeCheck = 1600;
 			};
-			buildConfigurationList = E2AA0E821CF4E8A7702A01C1 /* Build configuration list for PBXProject "ivibe" */;
+			buildConfigurationList = 35C7E23F0F933FDC74FD46A5 /* Build configuration list for PBXProject "ivibe" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -114,71 +114,43 @@
 				en,
 				Base,
 			);
-			mainGroup = 0FE72D31DE8EF7A0E4277400;
+			mainGroup = 76EC383D0335E87D4DFE9BA8;
 			minimizedProjectReferenceProxies = 0;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 48B4732037FAB493F8ABA0D7 /* Products */;
+			productRefGroup = 49AB6E75C33B5AA072B08D0B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				839532771BE7714B9D951300 /* ivibe */,
+				88AB4096716B69D8D7CE9D04 /* ivibe */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		FAE1DE9CD7EFD842BB270B22 /* Resources */ = {
+		BF00DC5F8E7A8A096FF1C02C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3522D819B6EC4E05ED31C6AB /* Assets.xcassets in Resources */,
+				70A0E5EB4147A467C69CCFA8 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		B7833DCE2F28C5BE3775D119 /* Sources */ = {
+		D3F465447DDA5A094F81E26E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				782F2003A39848A6E7CAA9D5 /* RootView.swift in Sources */,
-				17E3BB5556163F5F70077A94 /* ivibeApp.swift in Sources */,
+				4ADFAEC7C9FADB50C871044C /* RootView.swift in Sources */,
+				C2316A5698C1E4C39767B01D /* ivibeApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		06A4BE5EBC13CD194F53C12D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGNING_ALLOWED = NO;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = ivibe;
-				INFOPLIST_KEY_NSCameraUsageDescription = "사진 리뷰 기능에서 iOS UX 문제를 촬영해 확인하기 위해 카메라 접근이 필요합니다.";
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bitboom.ivibe;
-				PRODUCT_NAME = ivibe;
-				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		6098BC6D33E06E219E77C04E /* Debug */ = {
+		058DF53C62A4FC8277AE1D85 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -239,7 +211,7 @@
 			};
 			name = Debug;
 		};
-		771BC1997F26BD353337044D /* Release */ = {
+		A6AF66337D24E60944E3BBA0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -293,7 +265,35 @@
 			};
 			name = Release;
 		};
-		FE4BA554BF66786364D1A03A /* Debug */ = {
+		B7936EA1BEC03AB3944A5787 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGNING_ALLOWED = NO;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = ivibe;
+				INFOPLIST_KEY_NSCameraUsageDescription = "사진 리뷰 기능에서 iOS UX 문제를 촬영해 확인하기 위해 카메라 접근이 필요합니다.";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.bitboom.ivibe;
+				PRODUCT_NAME = ivibe;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C1C7D72CA2298F232F2A4258 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -323,25 +323,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		355C5E020C3A4278615D9A0B /* Build configuration list for PBXNativeTarget "ivibe" */ = {
+		35C7E23F0F933FDC74FD46A5 /* Build configuration list for PBXProject "ivibe" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				06A4BE5EBC13CD194F53C12D /* Release */,
-				FE4BA554BF66786364D1A03A /* Debug */,
+				058DF53C62A4FC8277AE1D85 /* Debug */,
+				A6AF66337D24E60944E3BBA0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E2AA0E821CF4E8A7702A01C1 /* Build configuration list for PBXProject "ivibe" */ = {
+		D6710A10BBC8F8AB5B7FA1AE /* Build configuration list for PBXNativeTarget "ivibe" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6098BC6D33E06E219E77C04E /* Debug */,
-				771BC1997F26BD353337044D /* Release */,
+				B7936EA1BEC03AB3944A5787 /* Release */,
+				C1C7D72CA2298F232F2A4258 /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 7E4BFE2C7B1F65A4B8D29BCD /* Project object */;
+	rootObject = 429D1A0E364B2A6EDAE9ACA9 /* Project object */;
 }

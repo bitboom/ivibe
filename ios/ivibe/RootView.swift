@@ -82,7 +82,7 @@ struct RootView: View {
             NavigationStack {
                 ChecklistScreen()
             }
-            .tabItem { Label("Checklist", systemImage: "checklist") }
+            .tabItem { Label("Review", systemImage: "checkmark.circle") }
             .tag(AppTab.checklist)
         }
         .tint(.blue)
@@ -580,7 +580,7 @@ struct FeedbackStateScreen: View {
                         .buttonStyle(.borderedProminent)
                     Button("문제 신고") {}
                 } else if mode == .empty {
-                    Button("첫 체크리스트 만들기") {}
+                    Button("첫 점검 항목 만들기") {}
                         .buttonStyle(.borderedProminent)
                 } else {
                     Button("불러오는 중") {}
@@ -616,7 +616,7 @@ struct FeedbackStateScreen: View {
             ContentUnavailableView(
                 "아직 점검 항목이 없습니다",
                 systemImage: "tray",
-                description: Text("첫 체크리스트를 만들면 여기에서 iOS 기본기 점검을 이어갈 수 있습니다.")
+                description: Text("첫 점검 항목을 만들면 여기에서 iOS 기본기 리뷰를 이어갈 수 있습니다.")
             )
             .frame(maxWidth: .infinity, minHeight: 210)
             .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 22, style: .continuous))
@@ -1031,7 +1031,7 @@ struct ChecklistScreen: View {
                 Label("거절 후 설정 복구 경로를 제공하는가", systemImage: "checkmark.circle")
             }
         }
-        .navigationTitle("Checklist")
+        .navigationTitle("Review")
     }
 }
 

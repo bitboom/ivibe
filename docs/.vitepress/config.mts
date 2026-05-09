@@ -15,8 +15,7 @@ export default defineConfig({
       { text: 'Input', link: '/guide/forms-keyboard-validation' },
       { text: 'Privacy', link: '/guide/permissions-privacy' },
       { text: 'Feedback', link: '/guide/loading-empty-error' },
-      { text: 'Accessibility', link: '/guide/accessibility-basics' },
-      { text: 'Checklist', link: '/checklists/ios-native' }
+      { text: 'Accessibility', link: '/guide/accessibility-basics' }
     ],
     sidebar: [
       {
@@ -28,9 +27,7 @@ export default defineConfig({
           { text: 'Form / Keyboard / Validation', link: '/guide/forms-keyboard-validation' },
           { text: 'Permission / Privacy', link: '/guide/permissions-privacy' },
           { text: 'Loading / Empty / Error State', link: '/guide/loading-empty-error' },
-          { text: 'Accessibility Basics', link: '/guide/accessibility-basics' },
-          { text: 'iOS-native 체크리스트', link: '/checklists/ios-native' },
-          { text: '프로젝트 체크리스트', link: '/project-checklist' }
+          { text: 'Accessibility Basics', link: '/guide/accessibility-basics' }
         ]
       }
     ],

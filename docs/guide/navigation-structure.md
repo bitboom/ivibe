@@ -16,7 +16,7 @@
     <figcaption>
       <span>Top-level</span>
       <strong>Tab Bar</strong>
-      <p>Learn / Compare / Lab / Checklist처럼 앱의 큰 영역을 오갈 때 씁니다.</p>
+      <p>Learn / Compare / Lab / Review처럼 앱의 큰 영역을 오갈 때 씁니다.</p>
     </figcaption>
   </figure>
 
@@ -78,7 +78,7 @@
 **좋은 예**
 
 ```text
-Learn | Compare | Lab | Checklist
+Learn | Compare | Lab | Review
 ```
 
 **나쁜 예**
@@ -131,7 +131,7 @@ Learn 탭
 **좋은 예**
 
 ```text
-Checklist 화면 위에 Filter Sheet 표시
+Review 화면 위에 Filter Sheet 표시
 ```
 
 **나쁜 예**
@@ -193,9 +193,9 @@ TabView {
     .tabItem { Label("Learn", systemImage: "book") }
 
     NavigationStack {
-        ChecklistView()
+        ReviewView()
     }
-    .tabItem { Label("Checklist", systemImage: "checklist") }
+    .tabItem { Label("Review", systemImage: "checkmark.circle") }
 }
 ```
 
@@ -247,7 +247,7 @@ Button("필터") {
 
 ---
 
-## 체크리스트
+## 확인할 것
 
 - [ ] 이 화면이 앱의 최상위 목적지인지 먼저 물었다.
 - [ ] 최상위 목적지만 Tab Bar에 넣었다.

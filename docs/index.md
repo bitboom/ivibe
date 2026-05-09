@@ -10,10 +10,10 @@ lastUpdated: false
   <div class="hero-copy">
     <p class="eyebrow">iOS-native UX/UI field guide</p>
     <h1>AI로 만든 앱을<br><span>iOS답게</span> 다듬기</h1>
-    <p class="hero-lede">ivibe는 vibe coding으로 빠르게 만든 앱이 iOS 사용자의 기대를 놓치지 않도록, HIG 기반 원칙·나쁜 예·좋은 예·체크리스트·실습 앱을 한 흐름으로 제공합니다.</p>
+    <p class="hero-lede">ivibe는 vibe coding으로 빠르게 만든 앱이 iOS 사용자의 기대를 놓치지 않도록, HIG 기반 원칙·나쁜 예·좋은 예·SwiftUI 실습을 한 흐름으로 제공합니다.</p>
     <div class="hero-actions">
       <a class="ios-button primary" href="/guide/start">학습 시작</a>
-      <a class="ios-button secondary" href="/checklists/ios-native">체크리스트 열기</a>
+      <a class="ios-button secondary" href="/guide/accessibility-basics">접근성 기본 보기</a>
     </div>
   </div>
 
@@ -27,7 +27,7 @@ lastUpdated: false
           <span>나쁜 예</span>
         </div>
         <div class="settings-section">
-          <p class="section-label">CHECKLIST</p>
+          <p class="section-label">REVIEW</p>
           <div class="settings-row"><span>Visible label</span><strong>✓</strong></div>
           <div class="settings-row"><span>Error near field</span><strong>✓</strong></div>
           <div class="settings-row"><span>44pt touch target</span><strong>✓</strong></div>
@@ -46,7 +46,7 @@ lastUpdated: false
   <div class="section-heading">
     <p class="eyebrow">Read · Compare · Try · Apply</p>
     <h2>문서를 읽는 순간부터 iOS 앱을 만지는 감각으로</h2>
-    <p>ivibe의 웹사이트도 학습 대상입니다. iOS Settings, NavigationStack, Sheet, Form, Checklist의 구조를 웹에 맞게 옮겨 사용합니다.</p>
+    <p>ivibe의 웹사이트도 학습 대상입니다. iOS Settings, NavigationStack, Sheet, Form의 구조를 웹에 맞게 옮겨 사용합니다.</p>
   </div>
   <div class="feature-grid">
     <article class="feature-card">
@@ -69,15 +69,16 @@ lastUpdated: false
 
 <section class="ivibe-section split-section">
   <div>
-    <p class="eyebrow">MVP 커리큘럼</p>
-    <h2>처음 다룰 5가지 기본기</h2>
+    <p class="eyebrow">핵심 가이드</p>
+    <h2>iOS답게 만드는 기본기</h2>
   </div>
   <div class="ios-list">
     <a class="ios-list-row" href="/guide/start"><span>iOS 앱은 웹사이트가 아니다</span><em>Start</em></a>
-    <div class="ios-list-row"><span>Navigation Stack / Tab Bar / Sheet</span><em>Structure</em></div>
-    <div class="ios-list-row"><span>Forms, Keyboard, Validation</span><em>Input</em></div>
-    <div class="ios-list-row"><span>Touch Target, Loading, Empty State</span><em>Feedback</em></div>
-    <div class="ios-list-row"><span>Permissions, Privacy, Settings Recovery</span><em>System</em></div>
+    <a class="ios-list-row" href="/guide/navigation-structure"><span>Navigation Stack / Tab Bar / Sheet</span><em>Structure</em></a>
+    <a class="ios-list-row" href="/guide/forms-keyboard-validation"><span>Forms, Keyboard, Validation</span><em>Input</em></a>
+    <a class="ios-list-row" href="/guide/loading-empty-error"><span>Loading, Empty, Error State</span><em>Feedback</em></a>
+    <a class="ios-list-row" href="/guide/permissions-privacy"><span>Permissions, Privacy, Settings Recovery</span><em>System</em></a>
+    <a class="ios-list-row" href="/guide/accessibility-basics"><span>Dynamic Type, VoiceOver, Touch Target</span><em>Accessibility</em></a>
   </div>
 </section>
 
@@ -103,7 +104,7 @@ lastUpdated: false
     <a href="https://developer.apple.com/design/human-interface-guidelines/">Apple HIG</a>
     <a href="https://www.nngroup.com/articles/">NN/g</a>
     <a href="https://lawsofux.com/">Laws of UX</a>
-    <a href="https://www.a11yproject.com/checklist/">A11Y Project</a>
+    <a href="https://www.a11yproject.com/">A11Y Project</a>
     <a href="https://mobbin.com/">Mobbin</a>
   </div>
 </section>

@@ -226,9 +226,9 @@ struct IvibeExampleApp: View {
             .tabItem { Label("Learn", systemImage: "book") }
 
             NavigationStack {
-                ChecklistView()
+                ReviewView()
             }
-            .tabItem { Label("Checklist", systemImage: "checklist") }
+            .tabItem { Label("Review", systemImage: "checkmark.circle") }
         }
     }
 }
@@ -244,7 +244,7 @@ struct IvibeExampleApp: View {
 
 ---
 
-## iOS-native 체크리스트
+## 확인할 것
 
 ### Structure
 

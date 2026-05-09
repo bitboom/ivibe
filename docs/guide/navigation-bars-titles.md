@@ -247,7 +247,7 @@ struct DetailView: View {
 - **직접 근거**: Apple HIG Navigation bars, Navigation and search, SwiftUI `navigationTitle`, `navigationBarTitleDisplayMode`, `toolbar` 문서
 - **ivibe 해석**: 최상위는 large title, 상세는 inline title + back, 화면 전체 액션만 toolbar에 남기는 운영 기준
 
-## 체크리스트
+## 확인할 것
 
 - [ ] 최상위 화면은 사용자가 위치를 바로 알 수 있는 제목을 가진다.
 - [ ] 상세 화면은 필요 이상으로 큰 제목을 반복하지 않는다.

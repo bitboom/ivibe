@@ -175,7 +175,7 @@ Empty는 `ContentUnavailableView`로 기본 구조를 얻을 수 있습니다.
 ContentUnavailableView(
     "아직 점검 항목이 없습니다",
     systemImage: "tray",
-    description: Text("첫 체크리스트를 만들면 여기에서 이어갈 수 있습니다.")
+    description: Text("첫 항목을 만들면 여기에서 이어갈 수 있습니다.")
 )
 ```
 
@@ -229,7 +229,7 @@ VStack(alignment: .leading) {
 - **직접 근거**: Apple HIG Progress indicators, Alerts, SwiftUI `ProgressView`, `ContentUnavailableView`, `alert`
 - **ivibe 해석**: 화면 상태를 Loading / Empty / Error로 분리하고, 각 상태마다 사용자에게 필요한 정보와 행동을 다르게 제공하는 운영 기준
 
-## 체크리스트
+## 확인할 것
 
 - [ ] Loading은 사용자가 앱이 멈췄다고 느끼기 전에 표시된다.
 - [ ] 긴 Loading은 무엇을 기다리는지 설명한다.
