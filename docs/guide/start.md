@@ -10,7 +10,20 @@
 
 ## 기본 iOS UI를 먼저 눈으로 보기
 
-첫 문서는 원칙을 읽기 전에, iOS 앱을 이루는 기본 표면을 먼저 눈으로 확인하는 곳입니다. 아래 화면들은 각 상세 글에서 다루는 핵심 UI입니다.
+첫 문서는 원칙을 읽기 전에, iOS 앱을 이루는 기본 표면을 먼저 눈으로 확인하는 곳입니다. 전체 지도에서 시작한 뒤 각 상세 화면으로 내려갑니다.
+
+<figure class="real-screenshot-card overview-screenshot-card">
+  <a class="screenshot-link" href="../screenshots/ios26/ux-ui-map.png" target="_blank" rel="noreferrer" aria-label="원본 스크린샷 열기">
+    <img src="/screenshots/ios26/ux-ui-map.png" alt="Structure, Navigation UI, Input, System, Feedback, Accessibility를 한 화면에 정리한 iOS UX/UI Map">
+  </a>
+  <figcaption>
+    <span>Overview</span>
+    <strong>iOS UX/UI Map</strong>
+    <p>AI로 만든 앱을 iOS답게 점검할 때 먼저 봐야 할 기본 지도입니다.</p>
+  </figcaption>
+</figure>
+
+아래 화면들은 각 상세 글에서 다루는 핵심 UI입니다.
 
 <div class="real-screenshot-grid">
   <figure class="real-screenshot-card">

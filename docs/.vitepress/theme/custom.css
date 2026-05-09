@@ -487,6 +487,11 @@
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
 }
 
+.overview-screenshot-card {
+  max-width: 420px;
+  margin: 26px auto 34px;
+}
+
 .real-screenshot-card img {
   display: block;
   width: 100%;

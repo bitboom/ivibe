@@ -146,74 +146,115 @@ enum AppTab: Hashable {
 struct LearnScreen: View {
     @Binding var isFilterPresented: Bool
 
+    private let mapItems: [UXMapItem] = [
+        UXMapItem(
+            label: "Structure",
+            title: "Tab Bar · Stack · Sheet",
+            subtitle: "큰 영역, 깊이, 잠깐 작업을 역할별로 분리합니다.",
+            symbol: "rectangle.3.group",
+            tint: .blue,
+            destination: .structure
+        ),
+        UXMapItem(
+            label: "Navigation UI",
+            title: "Title · Back · Toolbar",
+            subtitle: "현재 위치와 주요 행동을 시스템 내비게이션에 둡니다.",
+            symbol: "rectangle.topthird.inset.filled",
+            tint: .indigo,
+            destination: .navigation
+        ),
+        UXMapItem(
+            label: "Input",
+            title: "Form · Keyboard · Validation",
+            subtitle: "라벨, 키보드 타입, 오류 회복을 입력 흐름 안에 둡니다.",
+            symbol: "keyboard",
+            tint: .green,
+            destination: .input
+        ),
+        UXMapItem(
+            label: "System",
+            title: "Permission · Privacy · Settings",
+            subtitle: "권한은 필요한 순간에 설명하고 거절 후 복구를 제공합니다.",
+            symbol: "lock.shield",
+            tint: .orange,
+            destination: .privacy
+        ),
+        UXMapItem(
+            label: "Feedback",
+            title: "Loading · Empty · Error",
+            subtitle: "대기, 빈 상태, 실패 후 다음 행동을 명확히 보여줍니다.",
+            symbol: "exclamationmark.arrow.trianglehead.2.clockwise.rotate.90",
+            tint: .red,
+            destination: .feedback
+        ),
+        UXMapItem(
+            label: "Accessibility",
+            title: "Dynamic Type · VoiceOver · 44pt",
+            subtitle: "큰 글자, 읽기 순서, 터치 영역을 기본 품질로 확인합니다.",
+            symbol: "accessibility",
+            tint: .purple,
+            destination: .accessibility
+        )
+    ]
+
     var body: some View {
-        List {
-            Section {
-                NavigationLink {
-                    LessonDetailScreen()
-                } label: {
-                    LessonRow(
-                        title: "NavigationStack / Tab Bar / Sheet",
-                        subtitle: "앱의 큰 방, 깊이, 잠깐 작업을 구분합니다.",
-                        symbol: "rectangle.3.group"
-                    )
+        ScrollView {
+            VStack(alignment: .leading, spacing: 14) {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("iOS UX/UI Map")
+                        .font(.title.weight(.bold))
+                        .tracking(-0.8)
+                    Text("AI로 만든 앱을 iOS답게 점검하는 기본 지도")
+                        .font(.headline.weight(.semibold))
+                    Text("각 카드는 실제 iOS 컴포넌트 화면으로 이어집니다. 문서는 읽고, 앱에서는 만져보며 확인합니다.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                .padding(16)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(
+                    LinearGradient(
+                        colors: [.blue.opacity(0.16), .cyan.opacity(0.08)],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    ),
+                    in: RoundedRectangle(cornerRadius: 26, style: .continuous)
+                )
+
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("CORE COMPONENTS")
+                        .font(.caption.weight(.bold))
+                        .foregroundStyle(.secondary)
+
+                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 8) {
+                        ForEach(mapItems) { item in
+                            NavigationLink {
+                                destination(for: item.destination)
+                            } label: {
+                                UXMapCard(item: item)
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
                 }
 
-                NavigationLink {
-                    NavigationTitleLargeScreen()
-                } label: {
-                    LessonRow(
-                        title: "Navigation Bar / Title / Toolbar",
-                        subtitle: "제목, 뒤로가기, 화면 액션의 위치를 구분합니다.",
-                        symbol: "rectangle.topthird.inset.filled"
-                    )
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("Bad → Good으로 확인")
+                        .font(.headline)
+                    Text("탭을 버튼처럼 쓰기, 키보드가 CTA를 가리기, 앱 실행 즉시 권한 요청처럼 AI 앱에서 자주 생기는 문제를 비교합니다.")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
                 }
-
-                NavigationLink {
-                    FormLessonScreen(mode: .overview)
-                } label: {
-                    LessonRow(
-                        title: "Form / Keyboard / Validation",
-                        subtitle: "입력, 키보드, 오류 회복을 iOS답게 만듭니다.",
-                        symbol: "keyboard"
-                    )
-                }
-
-                NavigationLink {
-                    PrivacyLessonScreen(mode: .prePrompt)
-                } label: {
-                    LessonRow(
-                        title: "Permission / Privacy",
-                        subtitle: "권한 요청은 필요한 순간에 설명합니다.",
-                        symbol: "lock.shield"
-                    )
-                }
-
-                NavigationLink {
-                    FeedbackStateScreen(mode: .loading)
-                } label: {
-                    LessonRow(
-                        title: "Loading / Empty / Error",
-                        subtitle: "기다림, 빈 화면, 실패 후 복구를 구분합니다.",
-                        symbol: "exclamationmark.arrow.trianglehead.2.clockwise.rotate.90"
-                    )
-                }
-
-                NavigationLink {
-                    AccessibilityLessonScreen(mode: .dynamicType)
-                } label: {
-                    LessonRow(
-                        title: "Accessibility Basics",
-                        subtitle: "큰 글자, VoiceOver, 터치 영역을 기본값으로 확인합니다.",
-                        symbol: "accessibility"
-                    )
-                }
-            } header: {
-                Text("START")
-            } footer: {
-                Text("ivibe는 실제 iOS 화면을 먼저 만들고, 그 스크린샷을 문서의 학습 자료로 사용합니다.")
+                .padding()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 22, style: .continuous))
             }
+            .padding(.horizontal, 16)
+            .padding(.top, 12)
+            .padding(.bottom, 110)
         }
+        .background(Color(.systemGroupedBackground))
         .navigationTitle("ivibe")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -223,6 +264,87 @@ struct LearnScreen: View {
                     Label("Filter", systemImage: "line.3.horizontal.decrease.circle")
                 }
             }
+        }
+    }
+
+    @ViewBuilder
+    private func destination(for destination: UXMapDestination) -> some View {
+        switch destination {
+        case .structure:
+            LessonDetailScreen()
+        case .navigation:
+            NavigationTitleLargeScreen()
+        case .input:
+            FormLessonScreen(mode: .overview)
+        case .privacy:
+            PrivacyLessonScreen(mode: .prePrompt)
+        case .feedback:
+            FeedbackStateScreen(mode: .loading)
+        case .accessibility:
+            AccessibilityLessonScreen(mode: .dynamicType)
+        }
+    }
+}
+
+struct UXMapItem: Identifiable {
+    let id = UUID()
+    let label: String
+    let title: String
+    let subtitle: String
+    let symbol: String
+    let tint: Color
+    let destination: UXMapDestination
+}
+
+enum UXMapDestination {
+    case structure
+    case navigation
+    case input
+    case privacy
+    case feedback
+    case accessibility
+}
+
+struct UXMapCard: View {
+    let item: UXMapItem
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 5) {
+            HStack(alignment: .top) {
+                Image(systemName: item.symbol)
+                    .font(.headline.weight(.semibold))
+                    .foregroundStyle(item.tint)
+                    .frame(width: 32, height: 32)
+                    .background(item.tint.opacity(0.14), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+                Spacer(minLength: 6)
+                Image(systemName: "chevron.right")
+                    .font(.caption2.weight(.bold))
+                    .foregroundStyle(.tertiary)
+                    .padding(.top, 6)
+            }
+
+            Text(item.label.uppercased())
+                .font(.caption2.weight(.heavy))
+                .foregroundStyle(item.tint)
+
+            Text(item.title)
+                .font(.caption.weight(.bold))
+                .foregroundStyle(.primary)
+                .lineLimit(2)
+                .minimumScaleFactor(0.86)
+
+            Text(item.subtitle)
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+                .lineLimit(2)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(10)
+        .frame(maxWidth: .infinity, minHeight: 112, alignment: .topLeading)
+        .background(.background, in: RoundedRectangle(cornerRadius: 22, style: .continuous))
+        .overlay {
+            RoundedRectangle(cornerRadius: 22, style: .continuous)
+                .stroke(Color(.separator).opacity(0.28), lineWidth: 0.5)
         }
     }
 }

@@ -20,7 +20,7 @@ lastUpdated: false
   <div class="iphone-stage" aria-label="ivibe iOS screen preview">
     <div class="iphone-frame screenshot-frame">
       <div class="iphone-dynamic-island"></div>
-      <img class="hero-screenshot" src="/screenshots/ios26/formKeyboard.png" alt="iOS 기본 폼과 키보드, validation 흐름을 보여주는 ivibe 앱 화면" />
+      <img class="hero-screenshot" src="/screenshots/ios26/ux-ui-map.png" alt="iOS UX/UI Map으로 Structure, Navigation UI, Input, System, Feedback, Accessibility를 한눈에 보여주는 ivibe 앱 화면" />
     </div>
   </div>
 </section>
