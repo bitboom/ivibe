@@ -11,7 +11,9 @@
 
 <div class="real-screenshot-grid three">
   <figure class="real-screenshot-card">
+    <a class="screenshot-link" href="../screenshots/ios26/accessibility-dynamic-type.png" target="_blank" rel="noreferrer" aria-label="원본 스크린샷 열기">
     <img src="/screenshots/ios26/accessibility-dynamic-type.png" alt="큰 글자 설정에서 제목과 설명이 여러 줄로 자연스럽게 보이는 Dynamic Type 화면" />
+    </a>
     <figcaption>
       <span>DYNAMIC TYPE</span>
       <strong>큰 글자에서도 무너지지 않기</strong>
@@ -19,7 +21,9 @@
     </figcaption>
   </figure>
   <figure class="real-screenshot-card">
+    <a class="screenshot-link" href="../screenshots/ios26/accessibility-voiceover.png" target="_blank" rel="noreferrer" aria-label="원본 스크린샷 열기">
     <img src="/screenshots/ios26/accessibility-voiceover.png" alt="의미 있는 접근성 라벨과 힌트를 설명하는 VoiceOver 화면" />
+    </a>
     <figcaption>
       <span>VOICEOVER</span>
       <strong>보이는 모양보다 읽히는 의미</strong>
@@ -27,7 +31,9 @@
     </figcaption>
   </figure>
   <figure class="real-screenshot-card">
+    <a class="screenshot-link" href="../screenshots/ios26/accessibility-touch-target.png" target="_blank" rel="noreferrer" aria-label="원본 스크린샷 열기">
     <img src="/screenshots/ios26/accessibility-touch-target.png" alt="44pt 이상 터치 영역을 설명하는 Touch Target 화면" />
+    </a>
     <figcaption>
       <span>TOUCH TARGET</span>
       <strong>안정적으로 누를 수 있는 영역</strong>
@@ -55,6 +61,28 @@
     <p>Touch Target</p>
   </div>
 </div>
+
+## 화면 위에 올려서 확인할 기준
+
+<div class="decision-strip">
+  <div>
+    <span>AA</span>
+    <strong>Dynamic Type</strong>
+    <p>텍스트가 커졌을 때 카드 높이가 늘어나고, 버튼·설명이 겹치지 않아야 합니다.</p>
+  </div>
+  <div>
+    <span>VO</span>
+    <strong>Reading order</strong>
+    <p>VoiceOver 순서는 제목 → 상태 설명 → 가능한 행동 순서로 읽히는지 봅니다.</p>
+  </div>
+  <div>
+    <span>44</span>
+    <strong>Hit area</strong>
+    <p>아이콘 크기가 아니라 실제 누를 수 있는 프레임과 주변 간격을 확인합니다.</p>
+  </div>
+</div>
+
+이 기준은 별도 디자인 장식이 아니라 리뷰할 때 스크린샷 위에 겹쳐 보는 체크포인트입니다. 특히 AI가 만든 커스텀 카드와 아이콘 버튼은 시각적으로는 좋아 보여도 읽기 순서와 실제 터치 영역이 빠지는 경우가 많습니다.
 
 ## 컴포넌트로 이해하기
 

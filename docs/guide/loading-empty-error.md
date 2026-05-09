@@ -11,7 +11,9 @@
 
 <div class="real-screenshot-grid">
   <figure class="real-screenshot-card">
+    <a class="screenshot-link" href="../screenshots/ios26/feedback-loading.png" target="_blank" rel="noreferrer" aria-label="원본 스크린샷 열기">
     <img src="/screenshots/ios26/feedback-loading.png" alt="ProgressView와 대기 설명이 보이는 ivibe Loading 상태 화면" />
+    </a>
     <figcaption>
       <span>Loading</span>
       <strong>기다림을 설명</strong>
@@ -20,7 +22,9 @@
   </figure>
 
   <figure class="real-screenshot-card">
+    <a class="screenshot-link" href="../screenshots/ios26/feedback-empty.png" target="_blank" rel="noreferrer" aria-label="원본 스크린샷 열기">
     <img src="/screenshots/ios26/feedback-empty.png" alt="ContentUnavailableView와 첫 행동 버튼이 보이는 ivibe Empty 상태 화면" />
+    </a>
     <figcaption>
       <span>Empty</span>
       <strong>빈 이유와 첫 행동</strong>
@@ -29,7 +33,9 @@
   </figure>
 
   <figure class="real-screenshot-card">
+    <a class="screenshot-link" href="../screenshots/ios26/feedback-error.png" target="_blank" rel="noreferrer" aria-label="원본 스크린샷 열기">
     <img src="/screenshots/ios26/feedback-error.png" alt="오류 설명과 다시 시도 버튼이 보이는 ivibe Error 상태 화면" />
+    </a>
     <figcaption>
       <span>Error</span>
       <strong>복구 가능한 실패</strong>

@@ -12,7 +12,9 @@
 
 <div class="real-screenshot-grid">
   <figure class="real-screenshot-card">
+    <a class="screenshot-link" href="../screenshots/ios26/navigation-normal.png" target="_blank" rel="noreferrer" aria-label="원본 스크린샷 열기">
     <img src="/screenshots/ios26/navigation-normal.png" alt="ivibe 앱 Learn 탭의 실제 iOS 26 스크린샷" />
+    </a>
     <figcaption>
       <span>Top-level</span>
       <strong>Tab Bar</strong>
@@ -21,7 +23,9 @@
   </figure>
 
   <figure class="real-screenshot-card">
+    <a class="screenshot-link" href="../screenshots/ios26/navigation-structureDetail.png" target="_blank" rel="noreferrer" aria-label="원본 스크린샷 열기">
     <img src="/screenshots/ios26/navigation-structureDetail.png" alt="ivibe 앱 Structure 상세 화면의 실제 iOS 26 스크린샷" />
+    </a>
     <figcaption>
       <span>Depth</span>
       <strong>Navigation Stack</strong>
@@ -30,7 +34,9 @@
   </figure>
 
   <figure class="real-screenshot-card">
+    <a class="screenshot-link" href="../screenshots/ios26/navigation-filterSheet.png" target="_blank" rel="noreferrer" aria-label="원본 스크린샷 열기">
     <img src="/screenshots/ios26/navigation-filterSheet.png" alt="ivibe 앱 필터 Sheet의 실제 iOS 26 스크린샷" />
+    </a>
     <figcaption>
       <span>Temporary task</span>
       <strong>Sheet</strong>

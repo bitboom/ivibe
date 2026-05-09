@@ -7,7 +7,9 @@
 
 <div class="real-screenshot-grid">
   <figure class="real-screenshot-card">
+    <a class="screenshot-link" href="../screenshots/ios26/formOverview.png" target="_blank" rel="noreferrer" aria-label="원본 스크린샷 열기">
     <img src="/screenshots/ios26/formOverview.png" alt="ivibe 앱 Form 입력 화면의 실제 iOS 26 스크린샷" />
+    </a>
     <figcaption>
       <span>Input structure</span>
       <strong>Form</strong>
@@ -16,7 +18,9 @@
   </figure>
 
   <figure class="real-screenshot-card">
+    <a class="screenshot-link" href="../screenshots/ios26/formKeyboard.png" target="_blank" rel="noreferrer" aria-label="원본 스크린샷 열기">
     <img src="/screenshots/ios26/formKeyboard.png" alt="ivibe 앱 키보드 입력 상태의 실제 iOS 26 스크린샷" />
+    </a>
     <figcaption>
       <span>Input flow</span>
       <strong>Keyboard</strong>
@@ -25,7 +29,9 @@
   </figure>
 
   <figure class="real-screenshot-card">
+    <a class="screenshot-link" href="../screenshots/ios26/formValidation.png" target="_blank" rel="noreferrer" aria-label="원본 스크린샷 열기">
     <img src="/screenshots/ios26/formValidation.png" alt="ivibe 앱 validation 오류 상태의 실제 iOS 26 스크린샷" />
+    </a>
     <figcaption>
       <span>Recovery</span>
       <strong>Validation</strong>

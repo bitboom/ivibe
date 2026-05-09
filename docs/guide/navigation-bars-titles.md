@@ -11,7 +11,9 @@
 
 <div class="real-screenshot-grid">
   <figure class="real-screenshot-card">
+    <a class="screenshot-link" href="../screenshots/ios26/nav-title-large.png" target="_blank" rel="noreferrer" aria-label="원본 스크린샷 열기">
     <img src="/screenshots/ios26/nav-title-large.png" alt="큰 Navigation Title과 우측 toolbar 버튼이 보이는 ivibe 앱 화면" />
+    </a>
     <figcaption>
       <span>Large title</span>
       <strong>현재 영역 인식</strong>
@@ -20,7 +22,9 @@
   </figure>
 
   <figure class="real-screenshot-card">
+    <a class="screenshot-link" href="../screenshots/ios26/nav-inline-back.png" target="_blank" rel="noreferrer" aria-label="원본 스크린샷 열기">
     <img src="/screenshots/ios26/nav-inline-back.png" alt="inline title, 시스템 back button, 공유 toolbar 버튼이 보이는 ivibe 상세 화면" />
+    </a>
     <figcaption>
       <span>Inline title</span>
       <strong>들어간 화면</strong>
@@ -29,7 +33,9 @@
   </figure>
 
   <figure class="real-screenshot-card">
+    <a class="screenshot-link" href="../screenshots/ios26/nav-toolbar-actions.png" target="_blank" rel="noreferrer" aria-label="원본 스크린샷 열기">
     <img src="/screenshots/ios26/nav-toolbar-actions.png" alt="취소, 저장, 더보기 toolbar 액션이 있는 ivibe 앱 화면" />
+    </a>
     <figcaption>
       <span>Toolbar</span>
       <strong>화면 액션</strong>

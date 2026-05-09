@@ -12,32 +12,15 @@ lastUpdated: false
     <h1>AI로 만든 앱을<br><span>iOS답게</span> 다듬기</h1>
     <p class="hero-lede">ivibe는 vibe coding으로 빠르게 만든 앱이 iOS 사용자의 기대를 놓치지 않도록, HIG 기반 원칙·나쁜 예·좋은 예·SwiftUI 실습을 한 흐름으로 제공합니다.</p>
     <div class="hero-actions">
-      <a class="ios-button primary" href="/guide/start">학습 시작</a>
-      <a class="ios-button secondary" href="/guide/accessibility-basics">접근성 기본 보기</a>
+      <a class="ios-button primary" href="./guide/start">학습 시작</a>
+      <a class="ios-button secondary" href="./guide/accessibility-basics">접근성 기본 보기</a>
     </div>
   </div>
 
-  <div class="iphone-stage" aria-label="Bad UX and Good UX comparison preview">
-    <div class="iphone-frame">
+  <div class="iphone-stage" aria-label="ivibe iOS screen preview">
+    <div class="iphone-frame screenshot-frame">
       <div class="iphone-dynamic-island"></div>
-      <div class="phone-screen">
-        <div class="phone-nav">폼 UX</div>
-        <div class="segmented-control">
-          <span class="active">좋은 예</span>
-          <span>나쁜 예</span>
-        </div>
-        <div class="settings-section">
-          <p class="section-label">REVIEW</p>
-          <div class="settings-row"><span>Visible label</span><strong>✓</strong></div>
-          <div class="settings-row"><span>Error near field</span><strong>✓</strong></div>
-          <div class="settings-row"><span>44pt touch target</span><strong>✓</strong></div>
-        </div>
-        <div class="input-card">
-          <label>이메일</label>
-          <div class="fake-input">sangwan@example.com</div>
-          <p>필드 가까이에 도움말과 오류를 표시합니다.</p>
-        </div>
-      </div>
+      <img class="hero-screenshot" src="/screenshots/ios26/formKeyboard.png" alt="iOS 기본 폼과 키보드, validation 흐름을 보여주는 ivibe 앱 화면" />
     </div>
   </div>
 </section>
@@ -70,15 +53,16 @@ lastUpdated: false
 <section class="ivibe-section split-section">
   <div>
     <p class="eyebrow">핵심 가이드</p>
-    <h2>iOS답게 만드는 기본기</h2>
+    <h2><span class="keep-together">iOS답게 만드는</span> <span class="keep-together">기본기</span></h2>
   </div>
   <div class="ios-list">
-    <a class="ios-list-row" href="/guide/start"><span>iOS 앱은 웹사이트가 아니다</span><em>Start</em></a>
-    <a class="ios-list-row" href="/guide/navigation-structure"><span>Navigation Stack / Tab Bar / Sheet</span><em>Structure</em></a>
-    <a class="ios-list-row" href="/guide/forms-keyboard-validation"><span>Forms, Keyboard, Validation</span><em>Input</em></a>
-    <a class="ios-list-row" href="/guide/loading-empty-error"><span>Loading, Empty, Error State</span><em>Feedback</em></a>
-    <a class="ios-list-row" href="/guide/permissions-privacy"><span>Permissions, Privacy, Settings Recovery</span><em>System</em></a>
-    <a class="ios-list-row" href="/guide/accessibility-basics"><span>Dynamic Type, VoiceOver, Touch Target</span><em>Accessibility</em></a>
+    <a class="ios-list-row" href="./guide/start"><span>iOS 앱은 웹사이트가 아니다</span><em>Start</em></a>
+    <a class="ios-list-row" href="./guide/navigation-structure"><span>NavigationStack / Tab Bar / Sheet</span><em>Structure</em></a>
+    <a class="ios-list-row" href="./guide/navigation-bars-titles"><span>Navigation Bar / Title / Toolbar</span><em>Navigation UI</em></a>
+    <a class="ios-list-row" href="./guide/forms-keyboard-validation"><span>Form / Keyboard / Validation</span><em>Input</em></a>
+    <a class="ios-list-row" href="./guide/permissions-privacy"><span>Permission / Privacy</span><em>Privacy</em></a>
+    <a class="ios-list-row" href="./guide/loading-empty-error"><span>Loading / Empty / Error State</span><em>Feedback</em></a>
+    <a class="ios-list-row" href="./guide/accessibility-basics"><span>Accessibility Basics</span><em>Accessibility</em></a>
   </div>
 </section>
 

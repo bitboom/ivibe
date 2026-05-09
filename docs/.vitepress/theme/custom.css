@@ -7,30 +7,40 @@
   --vp-c-bg: #f5f5f7;
   --vp-c-bg-alt: #ffffff;
   --vp-c-text-1: #1d1d1f;
-  --vp-c-text-2: #6e6e73;
-  --ivibe-surface: rgba(255, 255, 255, 0.82);
+  --vp-c-text-2: #5f5f66;
+  --ivibe-accent: var(--vp-c-brand-1);
+  --ivibe-text: var(--vp-c-text-1);
+  --ivibe-secondary: var(--vp-c-text-2);
+  --ivibe-bg: #f5f5f7;
+  --ivibe-surface: rgba(255, 255, 255, 0.86);
   --ivibe-surface-solid: #ffffff;
-  --ivibe-separator: rgba(60, 60, 67, 0.12);
+  --ivibe-separator: rgba(60, 60, 67, 0.14);
   --ivibe-grouped: #f5f5f7;
   --ivibe-danger: #ff3b30;
   --ivibe-success: #34c759;
   --ivibe-warning: #ff9500;
   --ivibe-shadow: 0 18px 55px rgba(0, 0, 0, 0.08);
+  --ivibe-shadow-soft: 0 14px 36px rgba(0, 0, 0, 0.07);
 }
 
 .dark {
   --vp-c-bg: #000000;
   --vp-c-bg-alt: #1c1c1e;
   --vp-c-text-1: #f5f5f7;
-  --vp-c-text-2: #aeaeb2;
-  --ivibe-surface: rgba(44, 44, 46, 0.78);
+  --vp-c-text-2: #d1d1d6;
+  --ivibe-accent: var(--vp-c-brand-2);
+  --ivibe-text: var(--vp-c-text-1);
+  --ivibe-secondary: var(--vp-c-text-2);
+  --ivibe-bg: #000000;
+  --ivibe-surface: rgba(44, 44, 46, 0.84);
   --ivibe-surface-solid: #1c1c1e;
-  --ivibe-separator: rgba(84, 84, 88, 0.65);
+  --ivibe-separator: rgba(99, 99, 102, 0.72);
   --ivibe-grouped: #000000;
   --ivibe-danger: #ff453a;
   --ivibe-success: #30d158;
   --ivibe-warning: #ff9f0a;
   --ivibe-shadow: 0 18px 55px rgba(0, 0, 0, 0.45);
+  --ivibe-shadow-soft: 0 14px 36px rgba(0, 0, 0, 0.36);
 }
 
 .VPNavBarTitle .title {
@@ -173,6 +183,24 @@
   padding: 76px 18px 18px;
 }
 
+.screenshot-frame {
+  padding: 10px;
+}
+
+.screenshot-frame .iphone-dynamic-island {
+  top: 22px;
+}
+
+.hero-screenshot {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: 44px;
+  background: var(--ivibe-grouped);
+}
+
 .phone-nav {
   text-align: center;
   color: var(--vp-c-text-1);
@@ -300,6 +328,11 @@
   font-size: clamp(32px, 5vw, 54px);
   line-height: 1.05;
   letter-spacing: -0.055em;
+  word-break: keep-all;
+}
+
+.keep-together {
+  white-space: nowrap;
 }
 
 .section-heading p:not(.eyebrow) {
@@ -384,9 +417,11 @@
 }
 
 .ios-list-row em {
+  flex: 0 0 auto;
   color: var(--vp-c-text-2);
   font-size: 13px;
   font-style: normal;
+  font-weight: 650;
 }
 
 .compare-section {
@@ -458,6 +493,37 @@
   border-radius: 22px;
   background: #f5f5f7;
   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+}
+
+.screenshot-link {
+  position: relative;
+  display: block;
+  border-radius: 22px;
+  text-decoration: none !important;
+  outline-offset: 4px;
+}
+
+.screenshot-link::after {
+  content: '원본 보기';
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: rgba(29, 29, 31, 0.72);
+  color: white;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: -0.01em;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.screenshot-link:hover::after,
+.screenshot-link:focus-visible::after {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .real-screenshot-card figcaption {

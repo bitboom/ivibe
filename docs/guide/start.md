@@ -14,7 +14,9 @@
 
 <div class="real-screenshot-grid">
   <figure class="real-screenshot-card">
+    <a class="screenshot-link" href="../screenshots/ios26/navigation-normal.png" target="_blank" rel="noreferrer" aria-label="원본 스크린샷 열기">
     <img src="/screenshots/ios26/navigation-normal.png" alt="Tab Bar와 NavigationStack으로 구성된 iOS 앱 구조 화면">
+    </a>
     <figcaption>
       <span>Structure</span>
       <strong>Tab Bar / NavigationStack / Sheet</strong>
@@ -23,7 +25,9 @@
     </figcaption>
   </figure>
   <figure class="real-screenshot-card">
+    <a class="screenshot-link" href="../screenshots/ios26/nav-title-large.png" target="_blank" rel="noreferrer" aria-label="원본 스크린샷 열기">
     <img src="/screenshots/ios26/nav-title-large.png" alt="Large Title이 적용된 iOS Navigation Bar 화면">
+    </a>
     <figcaption>
       <span>Navigation UI</span>
       <strong>Navigation Bar / Title / Toolbar</strong>
@@ -32,7 +36,9 @@
     </figcaption>
   </figure>
   <figure class="real-screenshot-card">
+    <a class="screenshot-link" href="../screenshots/ios26/formOverview.png" target="_blank" rel="noreferrer" aria-label="원본 스크린샷 열기">
     <img src="/screenshots/ios26/formOverview.png" alt="라벨과 도움말이 있는 iOS Form 입력 화면">
+    </a>
     <figcaption>
       <span>Input</span>
       <strong>Form / Keyboard / Validation</strong>
@@ -41,7 +47,9 @@
     </figcaption>
   </figure>
   <figure class="real-screenshot-card">
+    <a class="screenshot-link" href="../screenshots/ios26/privacyPrePrompt.png" target="_blank" rel="noreferrer" aria-label="원본 스크린샷 열기">
     <img src="/screenshots/ios26/privacyPrePrompt.png" alt="권한 요청 전 이유를 설명하는 iOS Privacy 화면">
+    </a>
     <figcaption>
       <span>Privacy</span>
       <strong>Permission / Privacy</strong>
@@ -50,7 +58,9 @@
     </figcaption>
   </figure>
   <figure class="real-screenshot-card">
+    <a class="screenshot-link" href="../screenshots/ios26/feedback-empty.png" target="_blank" rel="noreferrer" aria-label="원본 스크린샷 열기">
     <img src="/screenshots/ios26/feedback-empty.png" alt="ContentUnavailableView로 구성된 iOS Empty State 화면">
+    </a>
     <figcaption>
       <span>Feedback</span>
       <strong>Loading / Empty / Error State</strong>
@@ -59,7 +69,9 @@
     </figcaption>
   </figure>
   <figure class="real-screenshot-card">
+    <a class="screenshot-link" href="../screenshots/ios26/accessibility-dynamic-type.png" target="_blank" rel="noreferrer" aria-label="원본 스크린샷 열기">
     <img src="/screenshots/ios26/accessibility-dynamic-type.png" alt="Dynamic Type을 고려한 iOS Accessibility 화면">
+    </a>
     <figcaption>
       <span>Accessibility</span>
       <strong>Dynamic Type / VoiceOver / Touch Target</strong>

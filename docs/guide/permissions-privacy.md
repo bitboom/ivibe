@@ -15,7 +15,9 @@ title: Permission / Privacy
 
 <div class="real-screenshot-grid">
   <figure class="real-screenshot-card">
+    <a class="screenshot-link" href="../screenshots/ios26/privacyPrePrompt.png" target="_blank" rel="noreferrer" aria-label="원본 스크린샷 열기">
     <img src="/screenshots/ios26/privacyPrePrompt.png" alt="카메라 권한을 요청하기 전에 기능 맥락과 이유를 설명하는 ivibe 앱 화면" />
+    </a>
     <figcaption>
       <span class="shot-label">Before request</span>
       시스템 alert 전에 왜 필요한지 먼저 설명합니다.
@@ -23,7 +25,9 @@ title: Permission / Privacy
   </figure>
 
   <figure class="real-screenshot-card">
+    <a class="screenshot-link" href="../screenshots/ios26/privacySystemPrompt.png" target="_blank" rel="noreferrer" aria-label="원본 스크린샷 열기">
     <img src="/screenshots/ios26/privacySystemPrompt.png" alt="ivibe 앱 위에 표시된 실제 iOS 카메라 권한 요청 alert" />
+    </a>
     <figcaption>
       <span class="shot-label">System prompt</span>
       iOS 권한 alert는 앱이 꾸미는 화면이 아니라 시스템 결정 지점입니다.
@@ -31,7 +35,9 @@ title: Permission / Privacy
   </figure>
 
   <figure class="real-screenshot-card">
+    <a class="screenshot-link" href="../screenshots/ios26/privacyRecovery.png" target="_blank" rel="noreferrer" aria-label="원본 스크린샷 열기">
     <img src="/screenshots/ios26/privacyRecovery.png" alt="권한 거절 후 설정에서 카메라 접근을 다시 켜도록 안내하는 ivibe 앱 화면" />
+    </a>
     <figcaption>
       <span class="shot-label">Recovery</span>
       거절 후에는 같은 요청을 반복하지 말고 설정 복구 경로를 안내합니다.
@@ -69,6 +75,17 @@ title: Permission / Privacy
    “카메라 권한 필요”보다 “사진 리뷰 기능에서 문제 화면을 촬영하기 위해 필요”가 낫습니다.
 3. **거절해도 길을 막지 않았는가?**  
    권한을 거절하면 기능 제한과 설정 복구 경로를 알려줘야 합니다.
+
+## 권한별로 달라지는 설계 포인트
+
+| 권한 | 요청 타이밍 | Pre-prompt가 필요한 경우 | 거절 후 복구 안내 |
+| --- | --- | --- | --- |
+| Camera | 촬영 버튼을 누른 직후 | 촬영 결과가 앱의 핵심 입력일 때 | 촬영 없이 가능한 대체 업로드, 설정에서 카메라 켜기 |
+| Photos | 사진 선택/저장 행동 직후 | 여러 장 접근, 저장 권한처럼 범위가 헷갈릴 때 | 제한된 접근 범위 설명, 사진 선택기를 다시 여는 길 |
+| Location | 지도/주변/체크인 기능을 시작할 때 | 항상 허용·정확한 위치처럼 민감도가 높을 때 | 대략 위치/수동 입력 대안, 설정 복구 경로 |
+| Notifications | 알림을 받을 가치가 생긴 순간 | 알림 빈도·종류를 사용자가 선택해야 할 때 | 앱 안 알림 설정, 시스템 설정 이동 안내 |
+
+권한마다 시스템 alert 문구와 회복 경로가 다릅니다. 그래서 “권한 허용이 필요합니다” 한 문장으로 통일하기보다, **사용자가 하려던 행동을 계속할 방법**을 권한별로 보여주는 것이 좋습니다.
 
 ## 컴포넌트로 이해하기
 
