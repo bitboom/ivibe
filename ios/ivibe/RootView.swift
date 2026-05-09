@@ -46,7 +46,7 @@ struct RootView: View {
                 NavigationStack { AccessibilityLessonScreen(mode: .voiceOver) }
             case .accessibilityTouchTarget:
                 NavigationStack { AccessibilityLessonScreen(mode: .touchTarget) }
-            case .normal, .compare, .checklist, .lab, .labPermission, .filterSheet:
+            case .normal, .compare, .checklist, .lab, .labPermission, .labDynamic, .filterSheet:
                 tabContent
             }
         }
@@ -100,6 +100,7 @@ enum ScreenshotMode: String {
     case checklist
     case lab
     case labPermission
+    case labDynamic
     case structureDetail
     case filterSheet
     case navigationTitleLarge
@@ -132,7 +133,7 @@ enum ScreenshotMode: String {
             return .compare
         case .checklist:
             return .checklist
-        case .lab, .labPermission:
+        case .lab, .labPermission, .labDynamic:
             return .lab
         case .normal, .structureDetail, .filterSheet, .navigationTitleLarge, .navigationInlineBack, .navigationToolbar, .formOverview, .formKeyboard, .formValidation, .privacyPrePrompt, .privacySystemPrompt, .privacyRecovery, .feedbackLoading, .feedbackEmpty, .feedbackError, .accessibilityDynamicType, .accessibilityVoiceOver, .accessibilityTouchTarget:
             return .learn
@@ -1182,6 +1183,7 @@ enum LabMode: String, CaseIterable, Identifiable {
 enum LabTopic: String, CaseIterable, Identifiable {
     case input = "Input"
     case permission = "Permission"
+    case dynamicType = "Dynamic"
 
     var id: String { rawValue }
 }
@@ -1195,7 +1197,16 @@ enum PermissionLabStage: String, CaseIterable, Identifiable {
 }
 
 struct LabScreen: View {
-    @State private var topic: LabTopic = ScreenshotMode.current == .labPermission ? .permission : .input
+    @State private var topic: LabTopic = {
+        switch ScreenshotMode.current {
+        case .labPermission:
+            return .permission
+        case .labDynamic:
+            return .dynamicType
+        default:
+            return .input
+        }
+    }()
     @State private var mode: LabMode = .good
     @State private var email = "wrong-email"
     @State private var note = ""
@@ -1231,7 +1242,7 @@ struct LabScreen: View {
                 .pickerStyle(.segmented)
                 .accessibilityLabel("실습 주제")
             } footer: {
-                Text(topic == .input ? "실습 1. 입력 흐름을 만지며 검증합니다." : "실습 2. 권한 요청 타이밍과 거절 후 복구를 점검합니다.")
+                Text(topicIntroCopy)
             }
 
             Section {
@@ -1252,12 +1263,14 @@ struct LabScreen: View {
                 inputActionSection
             case .permission:
                 permissionLabContent
+            case .dynamicType:
+                dynamicTypeLabContent
             }
         }
-        .navigationTitle(topic == .input ? "Input Lab" : "Permission Lab")
+        .navigationTitle(navigationTitle)
         .navigationBarTitleDisplayMode(.large)
         .safeAreaInset(edge: .bottom) {
-            Color.clear.frame(height: topic == .permission ? 72 : 0)
+            Color.clear.frame(height: topic == .input ? 0 : 140)
         }
         .toolbar {
             if topic == .input {
@@ -1280,12 +1293,36 @@ struct LabScreen: View {
         }
     }
 
+    private var navigationTitle: String {
+        switch topic {
+        case .input:
+            return "Input Lab"
+        case .permission:
+            return "Permission Lab"
+        case .dynamicType:
+            return "Dynamic Type Lab"
+        }
+    }
+
+    private var topicIntroCopy: String {
+        switch topic {
+        case .input:
+            return "실습 1. 입력 흐름을 만지며 검증합니다."
+        case .permission:
+            return "실습 2. 권한 요청 타이밍과 거절 후 복구를 점검합니다."
+        case .dynamicType:
+            return "실습 3. 큰 글자에서도 레이아웃과 터치 영역이 충분히 유지되는지 확인합니다."
+        }
+    }
+
     private var goodModeCopy: String {
         switch topic {
         case .input:
             return "Good은 라벨, keyboardType, 필드 바로 아래 오류, 키보드 toolbar를 함께 확인합니다."
         case .permission:
             return "Good 흐름은 기능을 쓰려는 순간에 이유를 설명하고, 거절 후에는 설정에서 복구할 수 있게 안내합니다."
+        case .dynamicType:
+            return "Good 예시는 텍스트를 줄이지 않고, 줄바꿈과 충분한 여백, 44pt 이상의 버튼 높이로 대응합니다."
         }
     }
 
@@ -1295,6 +1332,8 @@ struct LabScreen: View {
             return "Bad는 무엇이 문제인지 일부러 불편하게 보여주는 비교용입니다."
         case .permission:
             return "Bad는 앱 실행 직후 맥락 없이 권한을 요구하거나, 거절 후 사용자를 막아버립니다."
+        case .dynamicType:
+            return "Bad는 한 줄 고정, 작은 버튼, 잘리는 텍스트처럼 큰 글자 설정을 무시합니다."
         }
     }
 
@@ -1455,21 +1494,91 @@ struct LabScreen: View {
                 Text("사용자는 아직 카메라 기능을 쓰려는 상황이 아니어서 왜 필요한지 알기 어렵습니다.")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
-                Button("시스템 요청") {}
+                Button("권한 요청") {}
                     .buttonStyle(.borderedProminent)
             } header: {
                 Text("맥락 없는 요청")
             } footer: {
-                Text("문제: 시스템 alert는 되돌리기 어렵고, 거절 후 회복 설명도 없습니다.")
+                Text("문제: 시스템 권한 팝업은 되돌리기 어렵고, 거절 후 회복 설명도 없습니다.")
                     .foregroundStyle(.red)
             }
 
             Section("거절 후 막힘") {
                 Label("촬영 기능을 사용할 수 없습니다", systemImage: "xmark.octagon.fill")
                     .foregroundStyle(.red)
-                Text("Settings로 이동하는 길이나 대체 행동이 없습니다.")
+                Text("설정으로 이동하는 길이나 대체 행동이 없습니다.")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var dynamicTypeLabContent: some View {
+        if mode == .bad {
+            badDynamicTypeSection
+        } else {
+            goodDynamicTypeSection
+        }
+    }
+
+    private var goodDynamicTypeSection: some View {
+        Group {
+            Section {
+                VStack(alignment: .leading, spacing: 14) {
+                    Text("오늘의 점검")
+                        .font(.headline)
+                    Text("큰 글자 설정에서도 제목, 설명, 주요 버튼이 잘리지 않고 순서대로 읽히는지 확인합니다.")
+                        .font(.body)
+                        .fixedSize(horizontal: false, vertical: true)
+                    Button {
+                    } label: {
+                        Label("레이아웃 확인하기", systemImage: "textformat.size")
+                            .frame(maxWidth: .infinity)
+                            .frame(minHeight: 44)
+                    }
+                    .buttonStyle(.borderedProminent)
+                }
+                .padding(.vertical, 6)
+                .dynamicTypeSize(.accessibility2)
+            } header: {
+                Text("큰 글자 미리보기")
+            }
+
+            Section("확인할 것") {
+                Label("본문이 여러 줄로 자연스럽게 흐르는가", systemImage: "checkmark.circle")
+                Label("주요 버튼 높이가 44pt 이상인가", systemImage: "checkmark.circle")
+                Label("아이콘만으로 의미를 전달하지 않는가", systemImage: "checkmark.circle")
+            }
+        }
+    }
+
+    private var badDynamicTypeSection: some View {
+        Group {
+            Section {
+                HStack(spacing: 8) {
+                    Image(systemName: "textformat.size")
+                        .foregroundStyle(.red)
+                    Text("큰 글자에서도 모든 정보를 한 줄에 넣고 버튼도 작게 유지")
+                        .font(.body)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.55)
+                    Button("OK") {}
+                        .buttonStyle(.bordered)
+                        .controlSize(.mini)
+                }
+                .dynamicTypeSize(.accessibility2)
+            } header: {
+                Text("잘리는 예시")
+            } footer: {
+                Text("문제: 글자를 줄이거나 한 줄로 고정하면 사용자의 접근성 설정을 무시하게 됩니다.")
+                    .foregroundStyle(.red)
+            }
+
+            Section("놓치는 것") {
+                Label("텍스트 잘림", systemImage: "xmark.circle")
+                Label("작은 터치 영역", systemImage: "xmark.circle")
+                Label("읽기 순서 혼란", systemImage: "xmark.circle")
             }
         }
     }
@@ -1499,11 +1608,11 @@ struct LabScreen: View {
     private var permissionBody: String {
         switch permissionStage {
         case .context:
-            return "먼저 사용자가 하려는 작업과 권한의 이유를 연결합니다. 시스템 alert보다 앱 안 설명이 먼저입니다."
+            return "먼저 사용자가 하려는 작업과 권한의 이유를 연결합니다. 시스템 권한 팝업보다 앱 안 설명이 먼저입니다."
         case .request:
-            return "사용자가 계속하기를 선택한 뒤 시스템 시스템 요청으로 이어집니다. 같은 시스템 요청 팝업을 반복해서 띄우지 않습니다."
+            return "사용자가 계속하기를 선택한 뒤 시스템 권한 요청으로 이어집니다. 같은 권한 요청 팝업을 반복해서 띄우지 않습니다."
         case .recovery:
-            return "권한이 거절된 뒤에는 같은 시스템 요청 팝업을 다시 표시할 수 없습니다. 제한되는 기능을 알려주고, 설정에서 권한을 다시 켤 수 있게 안내합니다."
+            return "권한이 거절된 뒤에는 같은 권한 요청 팝업을 다시 표시할 수 없습니다. 제한되는 기능을 알려주고, 설정에서 권한을 다시 켤 수 있게 안내합니다."
         }
     }
 
@@ -1534,7 +1643,7 @@ struct LabScreen: View {
         case .context:
             return "계속"
         case .request:
-            return "시스템 요청 보기"
+            return "권한 요청 보기"
         case .recovery:
             return "설정 열기"
         }
@@ -1552,7 +1661,8 @@ struct LabScreen: View {
     }
 
     private func configureForCurrentState() {
-        if topic == .input {
+        switch topic {
+        case .input:
             email = "wrong-email"
             note = mode == .good ? "" : "짧음"
             if mode == .good {
@@ -1562,13 +1672,15 @@ struct LabScreen: View {
             } else {
                 focusedField = nil
             }
-        } else {
+        case .permission:
             focusedField = nil
             if ScreenshotMode.current == .labPermission {
                 permissionStage = .recovery
             } else if mode == .good {
                 permissionStage = .context
             }
+        case .dynamicType:
+            focusedField = nil
         }
     }
 }
