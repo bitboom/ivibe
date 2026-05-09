@@ -14,6 +14,7 @@ export default defineConfig({
       { text: 'Navigation UI', link: '/guide/navigation-bars-titles' },
       { text: 'Input', link: '/guide/forms-keyboard-validation' },
       { text: 'Privacy', link: '/guide/permissions-privacy' },
+      { text: 'Feedback', link: '/guide/loading-empty-error' },
       { text: 'Checklist', link: '/checklists/ios-native' }
     ],
     sidebar: [
@@ -25,6 +26,7 @@ export default defineConfig({
           { text: 'Navigation Bar / Title / Toolbar', link: '/guide/navigation-bars-titles' },
           { text: 'Form / Keyboard / Validation', link: '/guide/forms-keyboard-validation' },
           { text: 'Permission / Privacy', link: '/guide/permissions-privacy' },
+          { text: 'Loading / Empty / Error State', link: '/guide/loading-empty-error' },
           { text: 'iOS-native 체크리스트', link: '/checklists/ios-native' },
           { text: '프로젝트 체크리스트', link: '/project-checklist' }
         ]

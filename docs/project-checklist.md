@@ -16,7 +16,7 @@
 - [x] Navigation Bar / Title / Toolbar
 - [x] Forms / Keyboard / Validation
 - [x] Permissions / Privacy
-- [ ] Loading / Empty / Error State
+- [x] Loading / Empty / Error State
 - [ ] Accessibility 기본
 
 ## 콘텐츠 품질 기준
@@ -50,4 +50,5 @@
 - [x] iOS 26 Simulator 스크린샷 캡처 파이프라인
 - [x] Permission / Privacy 실제 앱 화면 및 시스템 권한 alert 캡처
 - [x] Navigation Bar / Title / Toolbar 실제 앱 화면 캡처
+- [x] Loading / Empty / Error State 실제 앱 화면 캡처
 - [x] GitHub Pages 문서와 챕터 ID 매칭

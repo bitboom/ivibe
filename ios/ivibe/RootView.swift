@@ -33,6 +33,12 @@ struct RootView: View {
                 NavigationStack { PrivacyLessonScreen(mode: .systemPrompt) }
             case .privacyRecovery:
                 NavigationStack { PrivacyLessonScreen(mode: .recovery) }
+            case .feedbackLoading:
+                NavigationStack { FeedbackStateScreen(mode: .loading) }
+            case .feedbackEmpty:
+                NavigationStack { FeedbackStateScreen(mode: .empty) }
+            case .feedbackError:
+                NavigationStack { FeedbackStateScreen(mode: .error) }
             case .normal, .compare, .checklist, .filterSheet:
                 tabContent
             }
@@ -96,6 +102,9 @@ enum ScreenshotMode: String {
     case privacyPrePrompt
     case privacySystemPrompt
     case privacyRecovery
+    case feedbackLoading
+    case feedbackEmpty
+    case feedbackError
 
     static var current: ScreenshotMode {
         guard let index = CommandLine.arguments.firstIndex(of: "--ivibe-screenshot"),
@@ -111,7 +120,7 @@ enum ScreenshotMode: String {
             return .compare
         case .checklist:
             return .checklist
-        case .normal, .structureDetail, .filterSheet, .navigationTitleLarge, .navigationInlineBack, .navigationToolbar, .formOverview, .formKeyboard, .formValidation, .privacyPrePrompt, .privacySystemPrompt, .privacyRecovery:
+        case .normal, .structureDetail, .filterSheet, .navigationTitleLarge, .navigationInlineBack, .navigationToolbar, .formOverview, .formKeyboard, .formValidation, .privacyPrePrompt, .privacySystemPrompt, .privacyRecovery, .feedbackLoading, .feedbackEmpty, .feedbackError:
             return .learn
         }
     }
@@ -167,6 +176,16 @@ struct LearnScreen: View {
                         title: "Permission / Privacy",
                         subtitle: "권한 요청은 필요한 순간에 설명합니다.",
                         symbol: "lock.shield"
+                    )
+                }
+
+                NavigationLink {
+                    FeedbackStateScreen(mode: .loading)
+                } label: {
+                    LessonRow(
+                        title: "Loading / Empty / Error",
+                        subtitle: "기다림, 빈 화면, 실패 후 복구를 구분합니다.",
+                        symbol: "exclamationmark.arrow.trianglehead.2.clockwise.rotate.90"
                     )
                 }
             } header: {
@@ -498,6 +517,156 @@ private extension PrivacyLessonMode {
         case .prePrompt: return "사진 리뷰 시작"
         case .systemPrompt: return "카메라 접근 요청"
         case .recovery: return "현재 접근 불가"
+        }
+    }
+}
+
+
+enum FeedbackStateMode {
+    case loading
+    case empty
+    case error
+}
+
+struct FeedbackStateScreen: View {
+    let mode: FeedbackStateMode
+
+    var body: some View {
+        List {
+            Section {
+                VStack(alignment: .leading, spacing: 16) {
+                    stateHero
+
+                    Text(mode.headline)
+                        .font(.title2.weight(.bold))
+
+                    Text(mode.explanation)
+                        .font(.body)
+                        .foregroundStyle(.secondary)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.vertical, 8)
+            }
+
+            Section("사용자가 알아야 할 것") {
+                ForEach(mode.signals, id: \.self) { signal in
+                    Label(signal, systemImage: "checkmark.circle")
+                }
+            }
+
+            Section {
+                if mode == .error {
+                    Button("다시 시도") {}
+                        .buttonStyle(.borderedProminent)
+                    Button("문제 신고") {}
+                } else if mode == .empty {
+                    Button("첫 체크리스트 만들기") {}
+                        .buttonStyle(.borderedProminent)
+                } else {
+                    Button("불러오는 중") {}
+                        .disabled(true)
+                }
+            } footer: {
+                Text(mode.footer)
+            }
+        }
+        .navigationTitle(mode.title)
+        .navigationBarTitleDisplayMode(mode == .loading ? .large : .inline)
+    }
+
+    @ViewBuilder
+    private var stateHero: some View {
+        switch mode {
+        case .loading:
+            HStack(spacing: 14) {
+                ProgressView()
+                    .controlSize(.large)
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("가이드를 불러오는 중")
+                        .font(.headline)
+                    Text("잠시만 기다려 주세요.")
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .padding()
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(.blue.opacity(0.10), in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+
+        case .empty:
+            ContentUnavailableView(
+                "아직 점검 항목이 없습니다",
+                systemImage: "tray",
+                description: Text("첫 체크리스트를 만들면 여기에서 iOS 기본기 점검을 이어갈 수 있습니다.")
+            )
+            .frame(maxWidth: .infinity, minHeight: 210)
+            .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 22, style: .continuous))
+
+        case .error:
+            VStack(alignment: .leading, spacing: 12) {
+                Image(systemName: "wifi.exclamationmark")
+                    .font(.system(size: 42, weight: .semibold))
+                    .foregroundStyle(.red)
+                    .frame(width: 58, height: 58)
+                    .background(.red.opacity(0.12), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+                Text("가이드를 불러오지 못했습니다")
+                    .font(.headline)
+                Text("연결 상태를 확인한 뒤 다시 시도해 주세요.")
+                    .foregroundStyle(.secondary)
+            }
+            .padding()
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(.red.opacity(0.08), in: RoundedRectangle(cornerRadius: 22, style: .continuous))
+        }
+    }
+}
+
+private extension FeedbackStateMode {
+    var title: String {
+        switch self {
+        case .loading: return "Loading"
+        case .empty: return "Empty"
+        case .error: return "Error"
+        }
+    }
+
+    var headline: String {
+        switch self {
+        case .loading: return "기다리는 이유가 보여야 합니다"
+        case .empty: return "빈 화면도 하나의 상태입니다"
+        case .error: return "실패 후 다음 행동이 있어야 합니다"
+        }
+    }
+
+    var explanation: String {
+        switch self {
+        case .loading:
+            return "데이터를 가져오는 동안 사용자가 앱이 멈췄다고 느끼지 않게 진행 중임을 보여줍니다."
+        case .empty:
+            return "아직 콘텐츠가 없을 때는 빈 공간을 방치하지 말고, 왜 비어 있는지와 다음 행동을 알려줍니다."
+        case .error:
+            return "실패 원인을 개발자식 코드로 노출하기보다, 사용자가 시도할 수 있는 복구 행동을 제공합니다."
+        }
+    }
+
+    var signals: [String] {
+        switch self {
+        case .loading:
+            return ["앱이 작업 중임을 즉시 표시", "가능하면 기다리는 대상을 설명", "완료 후 이동할 위치를 예측 가능하게 유지"]
+        case .empty:
+            return ["비어 있는 이유를 짧게 설명", "첫 행동을 명확히 제안", "오류와 빈 상태를 섞지 않음"]
+        case .error:
+            return ["사용자가 이해할 수 있는 말로 설명", "다시 시도 또는 설정 변경 제공", "위험한 작업은 확인 절차 추가"]
+        }
+    }
+
+    var footer: String {
+        switch self {
+        case .loading:
+            return "무한 spinner만 두면 사용자는 실패인지 대기인지 알 수 없습니다."
+        case .empty:
+            return "빈 상태는 문제 상황이 아니라 다음 행동을 시작하게 만드는 안내 화면입니다."
+        case .error:
+            return "복구 가능한 오류는 retry를, 파괴적 작업은 confirmation을 함께 설계합니다."
         }
     }
 }
