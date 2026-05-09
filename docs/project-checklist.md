@@ -22,12 +22,12 @@
 
 각 글은 아래 구조를 따라야 합니다.
 
-- [ ] 공식 문서 근거 링크
-- [ ] 근거가 직접적인지, 해석인지 구분
-- [ ] 나쁜 예
-- [ ] 좋은 예
-- [ ] SwiftUI 구현 힌트
-- [ ] 체크리스트
+- [x] 공식 문서 근거 링크
+- [x] 근거가 직접적인지, 해석인지 구분
+- [x] 나쁜 예
+- [x] 좋은 예
+- [x] SwiftUI 구현 힌트
+- [x] 체크리스트
 - [ ] 다음 글 연결
 
 ## 디자인
@@ -41,9 +41,10 @@
 
 ## iOS 앱 MVP
 
-- [ ] SwiftUI 프로젝트 생성
-- [ ] Learn 탭
-- [ ] Compare 탭
-- [ ] Lab 탭
-- [ ] Checklist 탭
+- [x] SwiftUI 프로젝트 생성
+- [x] Learn 탭
+- [x] Compare 탭
+- [x] Lab 탭
+- [x] Checklist 탭
+- [x] iOS 26 Simulator 스크린샷 캡처 파이프라인
 - [ ] GitHub Pages 문서와 챕터 ID 매칭

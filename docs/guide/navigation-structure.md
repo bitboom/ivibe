@@ -7,80 +7,40 @@
   <p>처음부터 긴 원칙을 외우기보다, 화면이 <strong>앱의 큰 방</strong>인지, <strong>한 단계 더 들어가는 화면</strong>인지, <strong>잠깐 띄우는 작업</strong>인지부터 보면 됩니다.</p>
 </div>
 
-## 한눈에 보기
+## 실제 앱 화면으로 먼저 보기
 
-<div class="component-showcase-grid">
-  <section class="component-showcase-card">
-    <div class="component-meta">
+<div class="article-summary-card compact-summary">
+  <p><strong>이 페이지의 이미지는 목업이 아니라 ivibe iOS 앱을 iOS 26 Simulator에서 실행해 캡처한 화면입니다.</strong></p>
+  <p>앞으로 문서에서 필요한 컴포넌트는 먼저 앱에 구현하고, 실제 iOS 화면을 찍어서 설명에 붙입니다.</p>
+</div>
+
+<div class="real-screenshot-grid">
+  <figure class="real-screenshot-card">
+    <img src="/screenshots/ios26/navigation-normal.png" alt="ivibe 앱 Learn 탭의 실제 iOS 26 스크린샷" />
+    <figcaption>
       <span>Top-level</span>
-      <h2>Tab Bar</h2>
-      <p>앱의 큰 영역을 오갈 때</p>
-    </div>
-    <div class="ios-screen-shot tabbar-shot" aria-label="Tab Bar example mockup">
-      <div class="ios-status-pill"></div>
-      <div class="ios-large-title">Learn</div>
-      <div class="ios-list-row strong">iOS 앱은 웹사이트가 아니다</div>
-      <div class="ios-list-row">Navigation / Tab / Sheet</div>
-      <div class="ios-list-row">Form & Keyboard</div>
-      <div class="ios-tabbar">
-        <span class="active">Learn</span>
-        <span>Compare</span>
-        <span>Lab</span>
-        <span>Checklist</span>
-      </div>
-    </div>
-    <ul>
-      <li>Learn / Compare / Lab / Checklist</li>
-      <li>Home / Search / Profile</li>
-      <li>앱을 열 때 반복해서 돌아오는 곳</li>
-    </ul>
-  </section>
+      <strong>Tab Bar</strong>
+      <p>Learn / Compare / Lab / Checklist처럼 앱의 큰 영역을 오갈 때 씁니다.</p>
+    </figcaption>
+  </figure>
 
-  <section class="component-showcase-card">
-    <div class="component-meta">
+  <figure class="real-screenshot-card">
+    <img src="/screenshots/ios26/navigation-structureDetail.png" alt="ivibe 앱 Structure 상세 화면의 실제 iOS 26 스크린샷" />
+    <figcaption>
       <span>Depth</span>
-      <h2>Navigation Stack</h2>
-      <p>목록에서 상세로 들어갈 때</p>
-    </div>
-    <div class="ios-screen-shot nav-shot" aria-label="NavigationStack example mockup">
-      <div class="ios-nav-bar"><span>‹ Learn</span><strong>Detail</strong></div>
-      <div class="ios-large-title small">Tab Bar를 언제 쓰나</div>
-      <div class="ios-body-card">이 화면은 Learn 안의 상세 화면입니다.</div>
-      <div class="ios-list-row">공식 문서 근거</div>
-      <div class="ios-list-row">Bad / Good 예시</div>
-      <div class="ios-list-row">SwiftUI 힌트</div>
-    </div>
-    <ul>
-      <li>목록 → 상세</li>
-      <li>상세 → 편집</li>
-      <li>뒤로가기가 자연스러운 흐름</li>
-    </ul>
-  </section>
+      <strong>Navigation Stack</strong>
+      <p>Learn 안에서 목록을 누르고 상세 화면으로 들어갈 때 씁니다.</p>
+    </figcaption>
+  </figure>
 
-  <section class="component-showcase-card">
-    <div class="component-meta">
+  <figure class="real-screenshot-card">
+    <img src="/screenshots/ios26/navigation-filterSheet.png" alt="ivibe 앱 필터 Sheet의 실제 iOS 26 스크린샷" />
+    <figcaption>
       <span>Temporary task</span>
-      <h2>Sheet</h2>
-      <p>현재 화면 위에서 잠깐 처리할 때</p>
-    </div>
-    <div class="ios-screen-shot sheet-shot" aria-label="Sheet example mockup">
-      <div class="ios-large-title muted">Checklist</div>
-      <div class="ios-list-row muted">Touch Target</div>
-      <div class="ios-list-row muted">Keyboard</div>
-      <div class="ios-sheet-card">
-        <div class="ios-sheet-handle"></div>
-        <strong>필터</strong>
-        <div class="ios-list-row compact active-row">중요한 항목만 보기</div>
-        <div class="ios-list-row compact">완료 안 한 항목</div>
-        <button>적용</button>
-      </div>
-    </div>
-    <ul>
-      <li>필터</li>
-      <li>짧은 입력</li>
-      <li>공유 옵션 / 권한 설명</li>
-    </ul>
-  </section>
+      <strong>Sheet</strong>
+      <p>현재 화면 위에서 필터처럼 짧게 끝나는 작업을 처리할 때 씁니다.</p>
+    </figcaption>
+  </figure>
 </div>
 
 ## 가장 짧은 판단법
